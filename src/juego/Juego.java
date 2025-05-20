@@ -1,6 +1,5 @@
 package juego;
 
-import java.util.Random;
 import java.awt.Color;
 import java.awt.Image;
 
@@ -14,7 +13,6 @@ public class Juego extends InterfaceJuego {
 
 	// Variables del juego
 	private Roca[] rocas;
-	private Random random;
 	private Personaje personaje;
 	private Enemigo enemigo;
 	private int puntos;
