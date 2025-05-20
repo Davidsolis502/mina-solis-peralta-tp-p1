@@ -35,25 +35,26 @@ public class Personaje {
 	}
 
 	public void moverDerecha() {
-		this.x +=5;
+		this.x +=2;
 		this.direccionDerecha = true;
 	}
 
 	public void moverIzquierda() {
-		this.x -=5;
+		this.x -=2;
 		this.direccionDerecha = false;
 	}
 
 	public void moverArriba() {
 		if (!colisionaPorArriba()) {
-			this.y -= 5;
+			this.y -= 2;
 		}
 	}
 
 	public void moverAbajo(Entorno entorno) {
 		if (!colisionaPorAbajo(entorno)) {
-			this.y += 5;
+			this.y += 2;
 		}
+	
 	}
 
 	public int getX() {
@@ -73,18 +74,18 @@ public class Personaje {
 	}
 
 	public boolean colisionaPorDerecha(Entorno entorno) {
-		return this.x + this.ancho / 2 >= entorno.ancho() - 90;
+		return this.x + ((this.ancho / 2)) >= entorno.ancho() -90;
 	}
 
 	public boolean colisionaPorIzquierda(Entorno entorno) {
-		return this.x - this.ancho / 2 <= 0;
+		return (this.x - (this.ancho / 2 ))<= 0;
 	}
 	public boolean colisionaPorArriba() {
-		return this.y - this.alto / 2 <= 0;
+		return (this.y - (this.alto / 2)) <= 0;
 	}
 
 	public boolean colisionaPorAbajo(Entorno entorno) {
-		return this.y + this.alto / 2 >= entorno.alto();
+		return (this.y + (this.alto / 2)) >= entorno.alto();
 	}
 
 
