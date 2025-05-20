@@ -31,7 +31,6 @@ public class Personaje {
 		} else {
 			entorno.dibujarImagen(imagenIzq, x, y, 0, escala);
 		}
-		// Si querés volver al rectángulo para test, comentá lo anterior y descomentá:
 		// entorno.dibujarRectangulo(x, y, ancho, alto, 0, color);
 	}
 
