@@ -1,5 +1,6 @@
 package juego;
 
+import java.util.Random;
 import java.awt.Color;
 import java.awt.Image;
 
@@ -7,98 +8,102 @@ import entorno.Entorno;
 import entorno.Herramientas;
 import entorno.InterfaceJuego;
 
-public class Juego extends InterfaceJuego
-{
+public class Juego extends InterfaceJuego {
 	// El objeto Entorno que controla el tiempo y otros
 	private Entorno entorno;
-	
-	// Variables y métodos propios de cada grupo
-	// ...
+
+	// Variables del juego
+	private Roca[] rocas;
+	private Random random;
 	private Personaje personaje;
 	private Enemigo enemigo;
 	private int puntos;
 	private Image fondo;
 
-	
-	
-	Juego()
-	{
+	Juego() {
 		// Inicializa el objeto entorno
 		this.entorno = new Entorno(this, "Proyecto para TP", 800, 600);
 		this.fondo = Herramientas.cargarImagen("fondo-juego.jpg");
-		// Inicializar lo que haga falta para el juego
-		// ...
-		this.personaje = new Personaje(entorno.ancho()/2, 500, 200, 50);
-		this.enemigo= new Enemigo(entorno.ancho()/2, 25);
-		this.puntos=0;
+
+		// Inicializar variables del juego
+		this.personaje = new Personaje(entorno.ancho() / 2, 500, 200, 50);
+		this.enemigo = new Enemigo(entorno.ancho() / 2, 25);
+		this.puntos = 0;
+
+		// Crear las rocas en posiciones aleatorias
+		this.random = new Random();
+		this.rocas = new Roca[5];
+		for (int i = 0; i < rocas.length; i++) {
+			int x = random.nextInt(760) + 20;  // evitar los bordes
+			int y = random.nextInt(300) + 100; // altura moderada
+			rocas[i] = new Roca(x, y);
+		}
+
 		// Inicia el juego!
 		this.entorno.iniciar();
 	}
 
-	/**
-	 * Durante el juego, el método tick() será ejecutado en cada instante y 
-	 * por lo tanto es el método más importante de esta clase. Aquí se debe 
-	 * actualizar el estado interno del juego para simular el paso del tiempo 
-	 * (ver el enunciado del TP para mayor detalle).
-	 */
-	public void tick()
-	{
-		// Procesamiento de un instante de tiempo
-		// ...
+	public void tick() {
+		// Fondo
 		this.entorno.dibujarImagen(this.fondo, this.entorno.ancho() / 2, this.entorno.alto() / 2, 0.0, 1.0);
+
+		// Dibujar objetos en pantalla
 		this.dibujarObjetos();
-		
-		if(entorno.estaPresionada(entorno.TECLA_DERECHA)
-				&& !personaje.colisionaPorDerecha(entorno)){
+
+		// Movimiento del personaje
+		if (entorno.estaPresionada(entorno.TECLA_DERECHA)
+				&& !personaje.colisionaPorDerecha(entorno)) {
 			personaje.moverDerecha();
 		}
-		if(entorno.estaPresionada(entorno.TECLA_IZQUIERDA)
+		if (entorno.estaPresionada(entorno.TECLA_IZQUIERDA)
 				&& !personaje.colisionaPorIzquierda(entorno)) {
 			personaje.moverIzquierda();
 		}
-		if(entorno.estaPresionada(entorno.TECLA_ABAJO)) {
+		if (entorno.estaPresionada(entorno.TECLA_ABAJO)) {
 			personaje.moverAbajo(entorno);
 		}
-		if(entorno.estaPresionada(entorno.TECLA_ARRIBA)) {
+		if (entorno.estaPresionada(entorno.TECLA_ARRIBA)) {
 			personaje.moverArriba();
 		}
-		
-		if(this.enemigo!=null) {
-			this.enemigo.moverAbajo();			
+
+		// Movimiento del enemigo
+		if (this.enemigo != null) {
+			this.enemigo.moverAbajo();
 		}
-		
-		
-		
-		if(this.personaje.colisionConEnemigo(enemigo)) {
-			enemigo=null;
+
+		// Colisión personaje vs enemigo
+		if (this.personaje.colisionConEnemigo(enemigo)) {
+			enemigo = null;
 			this.puntos++;
 		}
-		
-		
-		if(this.enemigo!=null && this.enemigo.fueraDeLimite(entorno)) {
-			this.enemigo=null;
+
+		// Eliminar enemigo si sale de la pantalla
+		if (this.enemigo != null && this.enemigo.fueraDeLimite(entorno)) {
+			this.enemigo = null;
 		}
-		
 	}
-	
+
 	public void dibujarObjetos() {
-		if(this.enemigo!=null) {
-			this.enemigo.dibujarse(entorno);			
+		// Dibujar enemigo
+		if (this.enemigo != null) {
+			this.enemigo.dibujarse(entorno);
 		}
+
+		// Dibujar rocas
+		for (Roca roca : rocas) {
+			roca.dibujarse(entorno);
+		}
+
+		// Dibujar personaje
 		this.personaje.dibujar(entorno);
-		
-		this.entorno.cambiarFont("Arial", 20,Color.black);
-		this.entorno.escribirTexto("Puntos "+this.puntos, entorno.ancho()-120, 30);
+
+		// Dibujar puntuación
+		this.entorno.cambiarFont("Arial", 20, Color.black);
+		this.entorno.escribirTexto("Puntos " + this.puntos, entorno.ancho() - 120, 30);
 	}
-	
-	
-	
-	
-	
 
 	@SuppressWarnings("unused")
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) {
 		Juego juego = new Juego();
 	}
 }

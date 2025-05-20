@@ -14,7 +14,7 @@ public class Roca {
 public Roca(int x, int y) {
 	this.x = x;
 	this.y = y;
-	this.escala= 0.2;
+	this.escala= 0.05;
 	this.roca=Herramientas.cargarImagen("imagen-roca.png");
 }
 public void dibujarse(Entorno entorno) {
