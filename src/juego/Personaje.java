@@ -108,4 +108,25 @@ public class Personaje {
 
 		return distancia <= (p.getDiametro() / 2);
 	}
+	public boolean colisionConRoca(Roca r) {
+		if (r == null) {
+			return false;
+		}
+	
+		int ladoIzquierdo = this.x - (this.ancho / 2);
+		int ladoDerecho = this.x + (this.ancho / 2);
+		int ladoSuperior = this.y - (this.alto / 2);
+		int ladoInferior = this.y + (this.alto / 2);
+	
+		int rocaIzq = r.getX() - (r.getAncho() / 2);
+		int rocaDer = r.getX() + (r.getAncho() / 2);
+		int rocaSup = r.getY() - (r.getAncho() / 2);
+		int rocaInf = r.getY() + (r.getAncho() / 2);
+	
+		boolean colisiona = ladoDerecho > rocaIzq && ladoIzquierdo < rocaDer &&
+							ladoInferior > rocaSup && ladoSuperior < rocaInf;
+	
+		return colisiona;
+	}
+	
 }

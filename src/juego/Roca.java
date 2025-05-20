@@ -20,4 +20,16 @@ public Roca(int x, int y) {
 public void dibujarse(Entorno entorno) {
 	entorno.dibujarImagen(roca, x, y,0,escala);
 }
+public int getX() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'getX'");
+}
+public int getY() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'getY'");
+}
+public int getAncho() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'getAncho'");
+}
 }

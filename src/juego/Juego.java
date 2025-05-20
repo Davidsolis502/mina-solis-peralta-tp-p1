@@ -31,13 +31,13 @@ public class Juego extends InterfaceJuego {
 		this.puntos = 0;
 
 		// Crear las rocas en posiciones aleatorias
-		this.random = new Random();
 		this.rocas = new Roca[5];
-		for (int i = 0; i < rocas.length; i++) {
-			int x = random.nextInt(760) + 20;  // evitar los bordes
-			int y = random.nextInt(300) + 100; // altura moderada
-			rocas[i] = new Roca(x, y);
-		}
+        rocas[0] = new Roca(170, 150); // superior
+        rocas[1] = new Roca(325, 250); // izquierda media
+        rocas[2] = new Roca(475, 250); // derecha media
+        rocas[3] = new Roca(250, 350); // izquierda base
+        rocas[4] = new Roca(550, 350); // derecha base
+
 
 		// Inicia el juego!
 		this.entorno.iniciar();
