@@ -17,7 +17,7 @@ public class Juego extends InterfaceJuego {
 	private Enemigo enemigo;
 	private int puntos;
 	private Image fondo;
-
+	private Boton boton;
 	Juego() {
 		// Inicializa el objeto entorno
 		this.entorno = new Entorno(this, "Proyecto para TP", 800, 600);
@@ -35,7 +35,9 @@ public class Juego extends InterfaceJuego {
         rocas[2] = new Roca(475, 250); // derecha media
         rocas[3] = new Roca(250, 360); // izquierda base
         rocas[4] = new Roca(550, 400); // derecha base
-
+        
+        //crea el boton de hechizo de fuego
+        this.boton = new Boton(720,200);
 
 		// Inicia el juego!
 		this.entorno.iniciar();
@@ -135,6 +137,8 @@ public class Juego extends InterfaceJuego {
 		// Dibujar puntuación
 		this.entorno.cambiarFont("Arial", 20, Color.black);
 		this.entorno.escribirTexto("Puntos " + this.puntos, entorno.ancho() - 120, 30);
+		
+		this.boton.dibujarse(entorno);
 	}
 
 	@SuppressWarnings("unused")
