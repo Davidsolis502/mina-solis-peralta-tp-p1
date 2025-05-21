@@ -38,8 +38,6 @@ public void generarEnemigos() {
                 timer.cancel();
                 return;
             }
-
-            // Verificar cuántos enemigos hay activos actualmente
             int activos = 0;
             for (Enemigo enemigo : enemigosActivos) {
                 if (enemigo != null) activos++;
@@ -73,8 +71,6 @@ public void generarEnemigos() {
                         if(y<anchoMenu) y=y+anchoMenu;
                         break;
                 }
-
-                // Crear y agregar enemigo en la primera posición libre
                 Enemigo enemigo = new Enemigo(x, y);
                 for (int i = 0; i < enemigosActivos.length; i++) {
                     if (enemigosActivos[i] == null) {
