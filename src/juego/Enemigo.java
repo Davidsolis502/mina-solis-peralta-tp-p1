@@ -8,6 +8,7 @@ import entorno.Herramientas;
 public class Enemigo{
 	private int x;
 	private int y;
+	private int indice;
 	private Image imagenenemigo;
 	private int diametro;
 	private double escala;
@@ -50,6 +51,14 @@ public class Enemigo{
 
 	public void setY(int y) {
 		this.y = y;
+	}
+
+	public int getIndice() {
+		return indice;
+	}
+
+	public void setIndice(int i) {
+		this.indice = i;
 	}
 
 	public int getDiametro() {

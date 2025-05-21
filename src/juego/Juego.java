@@ -22,13 +22,13 @@ public class Juego extends InterfaceJuego {
 	private Roca[] rocas;
 	private Personaje personaje;
 	private Enemigo enemigo;
-	private List<Enemigo> enemigosActivos = new ArrayList<>();
-	private int enemigosGenerados = 0;
-	private int MAX_ENEMIGOS = 50;
-	private int MAX_ENEMIGOS_EN_PANTALLA = 10;
-	private int puntos;
-	private Image fondo;
-	private Boton boton;
+	private Enemigo[] enemigosActivos = new Enemigo[10];
+private int enemigosGenerados = 0;
+private final int MAX_ENEMIGOS = 50;
+private final int MAX_ENEMIGOS_EN_PANTALLA = 10;
+private int puntos;
+private Image fondo;
+private Boton boton;
 
 public void generarEnemigos() {
     timer.scheduleAtFixedRate(new TimerTask() {
@@ -38,38 +38,57 @@ public void generarEnemigos() {
                 timer.cancel();
                 return;
             }
-            if (enemigosActivos.size() < MAX_ENEMIGOS_EN_PANTALLA) {
+
+            // Verificar cuántos enemigos hay activos actualmente
+            int activos = 0;
+            for (Enemigo enemigo : enemigosActivos) {
+                if (enemigo != null) activos++;
+            }
+
+            if (activos < MAX_ENEMIGOS_EN_PANTALLA) {
                 int borde = random.nextInt(4); 
                 int x = 0, y = 0;
-				int anchoEnemigo = 20;
-				int anchoMenu = 200;
+                int anchoEnemigo = 25;
+                int anchoMenu = 200;
+
                 switch (borde) {
                     case 0: // Borde superior
                         x = random.nextInt(entorno.ancho());
+						if (x > anchoMenu) x = x - anchoMenu;
                         y = anchoEnemigo;
                         break;
                     case 1: // Borde inferior
-                        x = random.nextInt(entorno.ancho())- anchoMenu;
-						if(x<anchoMenu) x= x - anchoMenu;
+                        x = random.nextInt(entorno.ancho());
+						if (x > anchoMenu) x = x - anchoMenu;
                         y = entorno.alto() - anchoEnemigo;
                         break;
                     case 2: // Borde izquierdo
                         x = anchoEnemigo;
-                        y = random.nextInt(entorno.alto());
+                        y = random.nextInt(entorno.alto() - anchoEnemigo);
+						if(y<anchoMenu) y=y+anchoMenu;
                         break;
                     case 3: // Borde derecho
                         x = entorno.ancho() - anchoMenu;
-                        y = random.nextInt(entorno.alto());
+                        y = random.nextInt(entorno.alto() - anchoEnemigo);
+                        if(y<anchoMenu) y=y+anchoMenu;
                         break;
                 }
 
+                // Crear y agregar enemigo en la primera posición libre
                 Enemigo enemigo = new Enemigo(x, y);
-                enemigosActivos.add(enemigo);
-                enemigosGenerados++;
+                for (int i = 0; i < enemigosActivos.length; i++) {
+                    if (enemigosActivos[i] == null) {
+                        enemigosActivos[i] = enemigo;
+						enemigo.setIndice(i);
+                        enemigosGenerados++;
+                        break;
+                    }
+                }
             }
         }
-    }, 0, 1000);
+    }, 0, 100);
 }
+
 
 
 	Juego() {
