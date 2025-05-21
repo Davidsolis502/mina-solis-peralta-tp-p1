@@ -33,7 +33,7 @@ public class Enemigo{
 	}
 	
 	public void moverAbajo() {
-		this.y+=2;
+		// this.y+=2;
 	}
 
 	public int getX() {
