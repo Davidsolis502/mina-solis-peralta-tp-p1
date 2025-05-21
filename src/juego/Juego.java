@@ -28,6 +28,7 @@ public class Juego extends InterfaceJuego {
 	private int MAX_ENEMIGOS_EN_PANTALLA = 10;
 	private int puntos;
 	private Image fondo;
+<<<<<<< HEAD
 
 
 public void generarEnemigos() {
@@ -51,25 +52,35 @@ public void generarEnemigos() {
     }, 0, 500); // Intenta generar cada 500ms
 }
 
+=======
+	private Boton boton;
+>>>>>>> 7e03c7d74e5a361a141573aea3b85accceff5d46
 	Juego() {
 		// Inicializa el objeto entorno
 		this.entorno = new Entorno(this, "Proyecto para TP", 800, 600);
 		this.fondo = Herramientas.cargarImagen("fondo-juego.jpg");
 
 		// Inicializar variables del juego
+<<<<<<< HEAD
 		this.personaje = new Personaje(entorno.ancho() / 2, 500, 200, 50);
 		// this.enemigo = new Enemigo( entorno.ancho() , 35);
 		
+=======
+		this.personaje = new Personaje(entorno.ancho() / 2, 500, 100, 100);
+		this.enemigo = new Enemigo(entorno.ancho() / 2, 25);
+>>>>>>> 7e03c7d74e5a361a141573aea3b85accceff5d46
 		this.puntos = 0;
 		
 		// Crear las rocas en posiciones aleatorias
 		this.rocas = new Roca[5];
-        rocas[0] = new Roca(170, 150); // superior
-        rocas[1] = new Roca(325, 250); // izquierda media
+        rocas[0] = new Roca(170, 120); // superior
+        rocas[1] = new Roca(110, 250); // izquierda media
         rocas[2] = new Roca(475, 250); // derecha media
-        rocas[3] = new Roca(250, 350); // izquierda base
-        rocas[4] = new Roca(550, 350); // derecha base
-
+        rocas[3] = new Roca(250, 360); // izquierda base
+        rocas[4] = new Roca(550, 400); // derecha base
+        
+        //crea el boton de hechizo de fuego
+        this.boton = new Boton(720,200);
 
 		// Inicia el juego!
 		this.entorno.iniciar();
@@ -114,7 +125,44 @@ public void generarEnemigos() {
 		if (this.enemigo != null && this.enemigo.fueraDeLimite(entorno)) {
 			this.enemigo = null;
 		}
+		
+		//colision entre personaje y las rocas
+		for (Roca roca : rocas) {
+			if (this.personaje.colisionConRoca(roca)) {
+				manejarColisionesConRoca(roca);
+			}
+		}
+
+		
 	}
+	public void manejarColisionesConRoca(Roca roca) {
+		
+		//calcula la direccion y distancia de la roca y el pj
+		int direcX= personaje.getX()-roca.getX();
+		int direcY= personaje.getY()-roca.getY();
+		
+		//si la distancia entre x es mayor, quiere decir que primero va a tocar de izquierda o derecha
+		
+		if(Math.abs(direcX)>Math.abs(direcY)) {
+			if (direcX>0) {
+				personaje.moverDerecha();
+			}
+			else {
+				personaje.moverIzquierda();
+			}
+		}
+		//sino va a tocar de arriba o abajo primero
+		else {
+			if (direcY >0) {
+				personaje.moverAbajo(entorno);
+			}
+			else {
+				personaje.moverArriba();
+			}
+		}
+				
+	}
+	
 
 	public void dibujarObjetos() {
 		// Dibujar enemigos
@@ -137,6 +185,8 @@ public void generarEnemigos() {
 		// Dibujar puntuación
 		this.entorno.cambiarFont("Arial", 20, Color.black);
 		this.entorno.escribirTexto("Puntos " + this.puntos, entorno.ancho() - 120, 30);
+		
+		this.boton.dibujarse(entorno);
 	}
 
 	@SuppressWarnings("unused")
