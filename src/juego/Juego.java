@@ -28,8 +28,7 @@ public class Juego extends InterfaceJuego {
 	private int MAX_ENEMIGOS_EN_PANTALLA = 10;
 	private int puntos;
 	private Image fondo;
-<<<<<<< HEAD
-
+	private Boton boton;
 
 public void generarEnemigos() {
     timer.scheduleAtFixedRate(new TimerTask() {
@@ -39,36 +38,49 @@ public void generarEnemigos() {
                 timer.cancel();
                 return;
             }
-
             if (enemigosActivos.size() < MAX_ENEMIGOS_EN_PANTALLA) {
-                Enemigo enemigo = new Enemigo(
-                    random.nextInt(entorno.ancho()),
-                    random.nextInt(entorno.alto())
-                );
+                int borde = random.nextInt(4); 
+                int x = 0, y = 0;
+				int anchoEnemigo = 20;
+				int anchoMenu = 200;
+                switch (borde) {
+                    case 0: // Borde superior
+                        x = random.nextInt(entorno.ancho());
+                        y = anchoEnemigo;
+                        break;
+                    case 1: // Borde inferior
+                        x = random.nextInt(entorno.ancho())- anchoMenu;
+						if(x<anchoMenu) x= x - anchoMenu;
+                        y = entorno.alto() - anchoEnemigo;
+                        break;
+                    case 2: // Borde izquierdo
+                        x = anchoEnemigo;
+                        y = random.nextInt(entorno.alto());
+                        break;
+                    case 3: // Borde derecho
+                        x = entorno.ancho() - anchoMenu;
+                        y = random.nextInt(entorno.alto());
+                        break;
+                }
+
+                Enemigo enemigo = new Enemigo(x, y);
                 enemigosActivos.add(enemigo);
                 enemigosGenerados++;
             }
         }
-    }, 0, 500); // Intenta generar cada 500ms
+    }, 0, 1000);
 }
 
-=======
-	private Boton boton;
->>>>>>> 7e03c7d74e5a361a141573aea3b85accceff5d46
+
 	Juego() {
 		// Inicializa el objeto entorno
 		this.entorno = new Entorno(this, "Proyecto para TP", 800, 600);
 		this.fondo = Herramientas.cargarImagen("fondo-juego.jpg");
 
 		// Inicializar variables del juego
-<<<<<<< HEAD
 		this.personaje = new Personaje(entorno.ancho() / 2, 500, 200, 50);
 		// this.enemigo = new Enemigo( entorno.ancho() , 35);
 		
-=======
-		this.personaje = new Personaje(entorno.ancho() / 2, 500, 100, 100);
-		this.enemigo = new Enemigo(entorno.ancho() / 2, 25);
->>>>>>> 7e03c7d74e5a361a141573aea3b85accceff5d46
 		this.puntos = 0;
 		
 		// Crear las rocas en posiciones aleatorias
