@@ -2,15 +2,12 @@ package juego;
 
 import java.awt.Color;
 import java.awt.Image;
-import javax.swing.ImageIcon;
 
 import entorno.Entorno;
 import entorno.Herramientas;
 import entorno.InterfaceJuego;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class Juego extends InterfaceJuego {
