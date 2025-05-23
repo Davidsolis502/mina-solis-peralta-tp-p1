@@ -19,9 +19,9 @@ public class Personaje {
 		this.y = y;
 		this.ancho = ancho;
 		this.alto = alto;
-		this.imagenDer = Herramientas.cargarImagen("personaje-der.png");
-		this.imagenIzq = Herramientas.cargarImagen("personaje-izq.png");
-		this.escala = 0.08;
+		this.imagenDer = Herramientas.cargarImagen("mago1-der.png");
+		this.imagenIzq = Herramientas.cargarImagen("mago1-izq.png");
+		this.escala = 0.1;
 		this.direccionDerecha = true; // Por defecto mira a la derecha
 	}
 
