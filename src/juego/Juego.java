@@ -25,6 +25,7 @@ public class Juego extends InterfaceJuego {
 	private int puntos;
 	private Image fondo;
 	private Boton boton;
+	private HechizoFuego hechizo1;
 
 public void generarEnemigos() {
     timer.scheduleAtFixedRate(new TimerTask() {
@@ -104,6 +105,9 @@ public void generarEnemigos() {
         
         //crea el boton de hechizo de fuego
         this.boton = new Boton(720,200);
+        
+        //inicia el objeto hechizo de fuego
+        this.hechizo1 = new HechizoFuego(0,0);
 
 		// Inicia el juego!
 		this.entorno.iniciar();
@@ -154,7 +158,14 @@ public void generarEnemigos() {
 				manejarColisionesConRoca(roca);
 			}
 		}
-
+		//disparo y colicion con enemigos
+		if (entorno.sePresionoBoton(entorno.BOTON_IZQUIERDO)) {
+			hechizo1.setX(entorno.mouseX());
+			hechizo1.setY(entorno.mouseY());
+			hechizo1.dibujarse(entorno);
+			
+		}
+			
 		
 	}
 	public void manejarColisionesConRoca(Roca roca) {
