@@ -21,14 +21,13 @@ public class Juego extends InterfaceJuego {
 	// Variables del juego
 	private Roca[] rocas;
 	private Personaje personaje;
-	private Enemigo enemigo;
 	private Enemigo[] enemigosActivos = new Enemigo[10];
-private int enemigosGenerados = 0;
-private final int MAX_ENEMIGOS = 50;
-private final int MAX_ENEMIGOS_EN_PANTALLA = 10;
-private int puntos;
-private Image fondo;
-private Boton boton;
+	private int enemigosGenerados = 0;
+	private final int MAX_ENEMIGOS = 50;
+	private final int MAX_ENEMIGOS_EN_PANTALLA = 10;
+	private int puntos;
+	private Image fondo;
+	private Boton boton;
 
 public void generarEnemigos() {
     timer.scheduleAtFixedRate(new TimerTask() {
@@ -137,22 +136,21 @@ public void generarEnemigos() {
 			personaje.moverArriba();
 		}
 
-		// Movimiento del enemigo
-		if (this.enemigo != null) {
-			this.enemigo.moverAbajo();
+		// Movimiento y actualización de enemigos
+		for (int i = 0; i < enemigosActivos.length; i++) {
+		    if (enemigosActivos[i] != null) {
+		        enemigosActivos[i].seguirPersonaje(this.personaje);
+		        
+		        if (this.personaje.colisionConEnemigo(enemigosActivos[i])) {
+		            enemigosActivos[i] = null;
+		            this.puntos++;
+		        }
+		        else if (enemigosActivos[i].fueraDeLimite(entorno)) {
+		            enemigosActivos[i] = null;
+		        }
+		    }
 		}
 
-		// Colisión personaje vs enemigo
-		if (this.personaje.colisionConEnemigo(enemigo)) {
-			enemigo = null;
-			this.puntos++;
-		}
-
-		// Eliminar enemigo si sale de la pantalla
-		if (this.enemigo != null && this.enemigo.fueraDeLimite(entorno)) {
-			this.enemigo = null;
-		}
-		
 		//colision entre personaje y las rocas
 		for (Roca roca : rocas) {
 			if (this.personaje.colisionConRoca(roca)) {

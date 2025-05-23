@@ -16,7 +16,7 @@ public class Enemigo{
 	public Enemigo(int x, int y) {
 		this.x = x;
 		this.y = y;
-		this.imagenenemigo=Herramientas.cargarImagen("gif-murcielago.gif");
+		this.imagenenemigo= Herramientas.cargarImagen("gif-murcielago.gif");
 		this.escala= 0.40;
 	}
 	
@@ -31,6 +31,25 @@ public class Enemigo{
 		else {
 			return false;
 		}
+	}
+	
+	public void seguirPersonaje(Personaje personaje) {
+		double velocidad = 1.5;
+		
+		// Calcular la dirección hacia el personaje
+		double dx = personaje.getX() - this.x;
+		double dy = personaje.getY() - this.y;
+		
+		// Normalizar la dirección (convertir a vector unitario)
+		double distancia = Math.sqrt(dx * dx + dy * dy);
+		if (distancia > 0) {
+			dx = dx / distancia * velocidad;
+			dy = dy / distancia * velocidad;
+		}
+		
+		// Mover al enemigo
+		this.x += dx;
+		this.y += dy;
 	}
 	
 	public void moverAbajo() {

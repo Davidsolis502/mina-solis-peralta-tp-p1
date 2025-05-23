@@ -31,7 +31,6 @@ public class Personaje {
 		} else {
 			entorno.dibujarImagen(imagenIzq, x, y, 0, escala);
 		}
-		// entorno.dibujarRectangulo(x, y, ancho, alto, 0, color);
 	}
 
 	public void moverDerecha() {
