@@ -15,8 +15,8 @@ public class Boton {
 	public Boton(int x,int y){
 		this.x=x;
 		this.y=y;
-		this.escala= 0.2;
-		this.boton=Herramientas.cargarImagen("boton-fire.png");
+		this.escala= 0.1;
+		this.boton=Herramientas.cargarImagen("Hechizo-desactivado.png");
 		
 	}
 	public void dibujarse(Entorno entorno) {
