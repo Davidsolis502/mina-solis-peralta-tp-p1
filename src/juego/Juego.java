@@ -159,12 +159,28 @@ public void generarEnemigos() {
 			}
 		}
 		//disparo y colicion con enemigos
-		if (entorno.sePresionoBoton(entorno.BOTON_IZQUIERDO)) {
-			hechizo1.setX(entorno.mouseX());
-			hechizo1.setY(entorno.mouseY());
-			hechizo1.dibujarse(entorno);
-			
-		}
+		// Verificar colisiones con enemigos
+        for (int i = 0; i < enemigosActivos.length; i++) {
+           Enemigo enemigo = enemigosActivos[i];
+           if (enemigo != null && hechizo1.EnemigoEnRango(enemigo)) {
+           enemigosActivos[i] = null;
+           puntos++; // sumás puntos si lo eliminás
+    }
+}
+
+		// Lanzar hechizo con clic izquierdo si no hay uno activo
+     if (entorno.sePresionoBoton(entorno.BOTON_IZQUIERDO) && !hechizo1.estaActivo()) {
+	   hechizo1.setX(entorno.mouseX());
+	   hechizo1.setY(entorno.mouseY());
+	   hechizo1.reiniciar(); // método nuevo para activar el hechizo
+     }
+
+   // Si está activo, actualizarlo y dibujarlo
+    if (hechizo1.estaActivo()) {
+	 hechizo1.actualizar();
+	 hechizo1.dibujarse(entorno);
+     }
+
 			
 		
 	}
