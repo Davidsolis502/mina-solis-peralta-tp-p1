@@ -26,6 +26,7 @@ public class Juego extends InterfaceJuego {
 	private Image fondo;
 	private Boton boton;
 	private HechizoFuego hechizo1;
+	private HechizoOndaExpansiva hechizo2;
 
 public void generarEnemigos() {
     timer.scheduleAtFixedRate(new TimerTask() {
@@ -108,6 +109,9 @@ public void generarEnemigos() {
         
         //inicia el objeto hechizo de fuego
         this.hechizo1 = new HechizoFuego(0,0);
+        
+        //inicia el objeto hechizo de onda expansiva
+        this.hechizo2 = new HechizoOndaExpansiva();
 
 		// Inicia el juego!
 		this.entorno.iniciar();
@@ -144,7 +148,7 @@ public void generarEnemigos() {
 		        
 		        if (this.personaje.colisionConEnemigo(enemigosActivos[i])) {
 		            enemigosActivos[i] = null;
-		            this.puntos++;
+		 
 		        }
 		        else if (enemigosActivos[i].fueraDeLimite(entorno)) {
 		            enemigosActivos[i] = null;
@@ -180,8 +184,18 @@ public void generarEnemigos() {
 	 hechizo1.actualizar();
 	 hechizo1.dibujarse(entorno);
      }
+    
+    
+ // Activación con clic derecho
+    if (entorno.sePresionoBoton(entorno.BOTON_DERECHO)) {
+        hechizo2.activar(entorno.ancho()/2, entorno.alto()/2); // Centro de la pantalla
+        hechizo2.aplicarEfecto(enemigosActivos); // Elimina todos los enemigos inmediatamente
+    }
 
-			
+    // dibuja el hechizo si esta presionado
+    if (entorno.sePresionoBoton(entorno.BOTON_DERECHO)) {
+        hechizo2.dibujarse(entorno);
+    }
 		
 	}
 	public void manejarColisionesConRoca(Roca roca) {
