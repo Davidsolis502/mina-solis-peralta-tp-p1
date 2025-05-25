@@ -73,7 +73,7 @@ public class Personaje {
 	}
 
 	public boolean colisionaPorDerecha(Entorno entorno) {
-		return this.x + ((this.ancho / 2)) >= entorno.ancho() -90;
+		return this.x + ((this.ancho / 2)) >= (entorno.ancho() -135);
 	}
 
 	public boolean colisionaPorIzquierda(Entorno entorno) {
