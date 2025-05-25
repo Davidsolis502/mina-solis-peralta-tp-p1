@@ -148,6 +148,9 @@ public void generarEnemigos() {
 		        
 		        if (this.personaje.colisionConEnemigo(enemigosActivos[i])) {
 		            enemigosActivos[i] = null;
+		            if (personaje.getVida() > 0) {
+		           		personaje.restarVida();
+		           	}
 		 
 		        }
 		        else if (enemigosActivos[i].fueraDeLimite(entorno)) {
@@ -244,11 +247,15 @@ public void generarEnemigos() {
 
 		// Dibujar personaje
 		this.personaje.dibujar(entorno);
-
-		// Dibujar puntuación
+       // Dibujar puntuación y vida
 		this.entorno.cambiarFont("Arial", 20, Color.black);
 		this.entorno.escribirTexto("Puntos " + this.puntos, entorno.ancho() - 120, 30);
-		
+		if(personaje.getVida()>=30) {
+		this.entorno.cambiarFont("Arial", 20, Color.black);
+		}else {
+			this.entorno.cambiarFont("Arial", 20, Color.red);	
+		}
+		this.entorno.escribirTexto("Vida "+this.personaje.getVida()+"/100",entorno.ancho()-133,400);
 		this.boton.dibujarse(entorno);
 	}
 

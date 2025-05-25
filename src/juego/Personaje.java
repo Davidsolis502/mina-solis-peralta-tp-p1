@@ -13,6 +13,7 @@ public class Personaje {
 	private Image imagenDer;
 	private double escala;
 	private boolean direccionDerecha;
+	private int vida;
 
 	public Personaje(int x, int y, int ancho, int alto) {
 		this.x = x;
@@ -22,6 +23,7 @@ public class Personaje {
 		this.imagenDer = Herramientas.cargarImagen("mago1-der.png");
 		this.imagenIzq = Herramientas.cargarImagen("mago1-izq.png");
 		this.escala = 0.1;
+		this.vida=100;
 		this.direccionDerecha = true; // Por defecto mira a la derecha
 	}
 
@@ -70,6 +72,9 @@ public class Personaje {
 
 	public int getAlto() {
 		return alto;
+	}
+	public int getVida() {
+		return this.vida;
 	}
 
 	public boolean colisionaPorDerecha(Entorno entorno) {
@@ -126,6 +131,9 @@ public class Personaje {
 							ladoInferior > rocaSup && ladoSuperior < rocaInf;
 	
 		return colisiona;
+	}
+	public void restarVida() {
+		this.vida-=5;
 	}
 	
 }
