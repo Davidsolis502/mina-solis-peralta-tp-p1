@@ -91,7 +91,7 @@ public void generarEnemigos() {
 		this.fondo = Herramientas.cargarImagen("fondo-juego.jpg");
 
 		// Inicializar variables del juego
-		this.personaje = new Personaje(entorno.ancho() / 2, 500, 80, 80);
+		this.personaje = new Personaje(entorno.ancho() / 2, 300, 35, 62);
 		// this.enemigo = new Enemigo( entorno.ancho() , 35);
 		
 		this.puntos = 0;
