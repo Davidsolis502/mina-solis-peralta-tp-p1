@@ -18,8 +18,8 @@ public class Boton {
 		this.x=x;
 		this.y=y;
 		this.escala= 0.1;
-		this.boton=Herramientas.cargarImagen("Hechizo-desactivado.png");
-		this.boton1=Herramientas.cargarImagen("Hechizo-activado.png");
+		this.boton=Herramientas.cargarImagen("boton1-desactivado.png");
+		this.boton1=Herramientas.cargarImagen("boton1-activado.png");
 		this.sepresiono=false;
 		
 	}
