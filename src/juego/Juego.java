@@ -24,9 +24,10 @@ public class Juego extends InterfaceJuego {
 	private final int MAX_ENEMIGOS_EN_PANTALLA = 10;
 	private int puntos;
 	private Image fondo;
-	private Boton boton;
+	private Menu menu;
 	private HechizoFuego hechizo1;
 	private HechizoOndaExpansiva hechizo2;
+	private boolean mouseClickAnterior = false;
 
 public void generarEnemigos() {
     timer.scheduleAtFixedRate(new TimerTask() {
@@ -88,10 +89,10 @@ public void generarEnemigos() {
 	Juego() {
 		// Inicializa el objeto entorno
 		this.entorno = new Entorno(this, "Proyecto para TP", 800, 600);
-		this.fondo = Herramientas.cargarImagen("fondo-juego.jpg");
-
+		this.fondo = Herramientas.cargarImagen("fondo-juego.jpg"); 
 		// Inicializar variables del juego
-		this.personaje = new Personaje(entorno.ancho() / 2, 300, 35, 62);
+		menu = new Menu();
+		this.personaje = new Personaje(entorno.ancho() / 2, 220, 80, 80);
 		// this.enemigo = new Enemigo( entorno.ancho() , 35);
 		
 		this.puntos = 0;
@@ -105,7 +106,9 @@ public void generarEnemigos() {
         rocas[4] = new Roca(550, 400); // derecha base
         
         //crea el boton de hechizo de fuego
-        this.boton = new Boton(720,200);
+        this.menu.dibujar(entorno);
+        menu.getBotonFuego();
+
         
         //inicia el objeto hechizo de fuego
         this.hechizo1 = new HechizoFuego(0,0);
@@ -141,6 +144,10 @@ public void generarEnemigos() {
 			personaje.moverArriba();
 		}
 
+
+
+
+
 		// Movimiento y actualización de enemigos
 		for (int i = 0; i < enemigosActivos.length; i++) {
 		    if (enemigosActivos[i] != null) {
@@ -174,33 +181,47 @@ public void generarEnemigos() {
            puntos++; // sumás puntos si lo eliminás
     }
 }
+        // Deteccion de click en el menu
+        boolean mouseClickActual = entorno.sePresionoBoton(entorno.BOTON_IZQUIERDO);
+        if (mouseClickActual && !mouseClickAnterior) {
+            menu.detectarClick(entorno.mouseX(), entorno.mouseY());
+        }
+        mouseClickAnterior = mouseClickActual;
 
-		// Lanzar hechizo con clic izquierdo si no hay uno activo
-     if (entorno.sePresionoBoton(entorno.BOTON_IZQUIERDO) && !hechizo1.estaActivo()) {
-	   hechizo1.setX(entorno.mouseX());
-	   hechizo1.setY(entorno.mouseY());
-	   hechizo1.reiniciar(); // método nuevo para activar el hechizo
-     }
-
-   // Si está activo, actualizarlo y dibujarlo
-    if (hechizo1.estaActivo()) {
-	 hechizo1.actualizar();
-	 hechizo1.dibujarse(entorno);
-     }
+        // Uso de hechizos
+        if (entorno.sePresionoBoton(entorno.BOTON_DERECHO)) {
+            if (menu.getBotonFuego()) {
+            	if(entorno.mouseX()<550) {
+                hechizo1.setX(entorno.mouseX());
+                hechizo1.setY(entorno.mouseY());
+                hechizo1.reiniciar();
+                menu.liberarSeleccion();
+            	}
+            }
+            else if (menu.getBotonOnda()) {
+                hechizo2.activar(entorno.ancho()/2, entorno.alto()/2);
+                hechizo2.aplicarEfecto(enemigosActivos);
+                hechizo2.reiniciar();
+                menu.liberarSeleccion();
+            }
+        }
+     
     
-    
- // Activación con clic derecho
-    if (entorno.sePresionoBoton(entorno.BOTON_DERECHO)) {
-        hechizo2.activar(entorno.ancho()/2, entorno.alto()/2); // Centro de la pantalla
-        hechizo2.aplicarEfecto(enemigosActivos); // Elimina todos los enemigos inmediatamente
-    }
 
-    // dibuja el hechizo si esta presionado
-    if (entorno.sePresionoBoton(entorno.BOTON_DERECHO)) {
-        hechizo2.dibujarse(entorno);
+        // actualizacion y dibujo de clicks
+        if (hechizo1.estaActivo()) {
+            hechizo1.actualizar();
+            hechizo1.dibujarse(entorno);
+        }
+        
+        if (hechizo2.estaActivo()) {
+        	hechizo2.actualizar();
+            hechizo2.dibujarse(entorno);
+        }
+        
     }
 		
-	}
+	
 	public void manejarColisionesConRoca(Roca roca) {
 		
 		//calcula la direccion y distancia de la roca y el pj
@@ -247,16 +268,24 @@ public void generarEnemigos() {
 
 		// Dibujar personaje
 		this.personaje.dibujar(entorno);
-       // Dibujar puntuación y vida
-		this.entorno.cambiarFont("Arial", 20, Color.black);
+
+		this.entorno.cambiarFont("Arial", 20, Color.black,entorno.NEGRITA);
 		this.entorno.escribirTexto("Puntos " + this.puntos, entorno.ancho() - 120, 30);
-		if(personaje.getVida()>=30) {
-		this.entorno.cambiarFont("Arial", 20, Color.black);
-		}else {
-			this.entorno.cambiarFont("Arial", 20, Color.red);	
+
+		// Siempre escribir "Vida" en negro
+		this.entorno.cambiarFont("Arial", 20, Color.black,entorno.NEGRITA);
+		this.entorno.escribirTexto("VIDA ", entorno.ancho() - 133, 400);
+
+		// Escribir el valor de vida en rojo o negro según corresponda
+		if (personaje.getVida() >= 30) {
+			this.entorno.cambiarFont("Arial", 20, Color.black,entorno.NEGRITA);
+		} else {
+			this.entorno.cambiarFont("Arial", 20, Color.red,entorno.NEGRITA);	
 		}
-		this.entorno.escribirTexto("Vida "+this.personaje.getVida()+"/100",entorno.ancho()-133,400);
-		this.boton.dibujarse(entorno);
+		this.entorno.escribirTexto(this.personaje.getVida() + "/100", entorno.ancho() - 80, 400);
+		menu.dibujar(entorno);
+
+
 	}
 
 	@SuppressWarnings("unused")
