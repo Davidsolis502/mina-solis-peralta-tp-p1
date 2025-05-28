@@ -24,8 +24,8 @@ public class Boton {
 		this.ancho = ancho;
 		this.alto = alto;
 		this.escala= 0.1;
-		this.boton1on=Herramientas.cargarImagen("boton-hechizo-activado.png");
-		this.boton1off=Herramientas.cargarImagen("boton-hechizo-desactivado.png");
+		this.boton1on=Herramientas.cargarImagen("boton1-activado.png");
+		this.boton1off=Herramientas.cargarImagen("boton1-desactivado.png");
 		//this.boton2on=Herramientas.cargarImagen("boton2-activado.png");
 		//this.boton2off=Herramientas.cargarImagen("boton2-desactivado.png");
 		this.sepresiono=false;
@@ -79,3 +79,4 @@ public class Boton {
 		
 	}
 }
+

@@ -1,4 +1,5 @@
 package juego;
+import java.awt.Image;
 import entorno.Entorno;
 
 public class Menu {
@@ -39,6 +40,14 @@ public class Menu {
         botonOnda.dibujarse(entorno);
     }
 
+    //public void actualizar(Entorno entorno) {
+        // Detectar si se hace clic con ENTER o alguna tecla
+        //if (entorno.sePresiono(entorno.TECLA_DERECHA)) {
+        //    botonFuego.presionar();
+      //  } //else {
+            //botonHechizo.soltar();
+        //}
+   // }
 
   
 	public Boolean getBotonFuego() {
@@ -52,6 +61,5 @@ public class Menu {
 }
 
 
+
 	
-
-

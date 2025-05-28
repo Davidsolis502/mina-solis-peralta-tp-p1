@@ -10,11 +10,13 @@ public class HechizoOndaExpansiva {
     private int centroY;
     private boolean activo;
     private double escala;
+    private int fotogramas;
     
     public HechizoOndaExpansiva() {
         this.imagen = Herramientas.cargarImagen("testExplosion.png");
-        this.escala = 1.0;
+        this.escala = 0.5;
         this.activo = false;
+        this.fotogramas=0; //cuenta los fotogramas igual que en hechizoFuego
     }
     
     public void activar(int centroX, int centroY) {
@@ -41,6 +43,14 @@ public class HechizoOndaExpansiva {
         }
     
     public boolean estaActivo() {
-        return activo;
+        return this.fotogramas>0;
     }
+    public void actualizar() {
+        this.fotogramas--;
+    }
+    public void reiniciar() {
+		this.fotogramas = 30;
+	}
+    
+    
 }
