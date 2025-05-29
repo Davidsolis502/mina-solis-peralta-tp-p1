@@ -1,6 +1,6 @@
 package juego;
 
-import java.awt.Color;
+//import java.awt.Color;//
 import java.awt.Image;
 
 import entorno.Entorno;
@@ -22,7 +22,6 @@ public class Juego extends InterfaceJuego {
 	private int enemigosGenerados = 0;
 	private final int MAX_ENEMIGOS = 50;
 	private final int MAX_ENEMIGOS_EN_PANTALLA = 10;
-	private int puntos;
 	private Image fondo;
 	private Menu menu;
 	private HechizoFuego hechizo1;
@@ -93,11 +92,9 @@ public void generarEnemigos() {
 		// Inicializar variables del juego
 		menu = new Menu();
 		this.personaje = new Personaje(entorno.ancho() / 2, 220, 80, 80);
-		// this.enemigo = new Enemigo( entorno.ancho() , 35);
 		
-		this.puntos = 0;
 		
-		// Crear las rocas en posiciones aleatorias
+		// Crear las rocas en diferentes posiciones//
 		this.rocas = new Roca[5];
         rocas[0] = new Roca(170, 120); // superior
         rocas[1] = new Roca(110, 250); // izquierda media
@@ -105,10 +102,6 @@ public void generarEnemigos() {
         rocas[3] = new Roca(250, 360); // izquierda base
         rocas[4] = new Roca(550, 400); // derecha base
         
-        //crea el boton de hechizo de fuego
-        this.menu.dibujar(entorno);
-        menu.getBotonFuego();
-
         
         //inicia el objeto hechizo de fuego
         this.hechizo1 = new HechizoFuego(0,0);
@@ -118,6 +111,7 @@ public void generarEnemigos() {
 
 		// Inicia el juego!
 		this.entorno.iniciar();
+		this.menu.dibujar(entorno,personaje);
 		this.generarEnemigos();
 	}
 
@@ -178,7 +172,7 @@ public void generarEnemigos() {
            Enemigo enemigo = enemigosActivos[i];
            if (enemigo != null && hechizo1.EnemigoEnRango(enemigo)) {
            enemigosActivos[i] = null;
-           puntos++; // sumás puntos si lo eliminás
+           menu.sumarPuntos(); // sumás puntos si lo eliminás
     }
 }
         // Deteccion de click en el menu
@@ -266,26 +260,11 @@ public void generarEnemigos() {
 			roca.dibujarse(entorno);
 		}
 
-		// Dibujar personaje
+		// Dibujar personaje//
 		this.personaje.dibujar(entorno);
 
-		this.entorno.cambiarFont("Arial", 20, Color.black,entorno.NEGRITA);
-		this.entorno.escribirTexto("Puntos " + this.puntos, entorno.ancho() - 120, 30);
-
-		// Siempre escribir "Vida" en negro
-		this.entorno.cambiarFont("Arial", 20, Color.black,entorno.NEGRITA);
-		this.entorno.escribirTexto("VIDA ", entorno.ancho() - 133, 400);
-
-		// Escribir el valor de vida en rojo o negro según corresponda
-		if (personaje.getVida() >= 30) {
-			this.entorno.cambiarFont("Arial", 20, Color.black,entorno.NEGRITA);
-		} else {
-			this.entorno.cambiarFont("Arial", 20, Color.red,entorno.NEGRITA);	
-		}
-		this.entorno.escribirTexto(this.personaje.getVida() + "/100", entorno.ancho() - 80, 400);
-		menu.dibujar(entorno);
-
-
+		//Dibujar menu//
+		menu.dibujar(entorno, personaje);
 	}
 
 	@SuppressWarnings("unused")
