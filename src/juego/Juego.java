@@ -183,22 +183,28 @@ public void generarEnemigos() {
         mouseClickAnterior = mouseClickActual;
 
         // Uso de hechizos
-        if (entorno.sePresionoBoton(entorno.BOTON_DERECHO)) {
-            if (menu.getBotonFuego()) {
-            	if(entorno.mouseX()<550) {
-                hechizo1.setX(entorno.mouseX());
-                hechizo1.setY(entorno.mouseY());
-                hechizo1.reiniciar();
-                menu.liberarSeleccion();
-            	}
-            }
-            else if (menu.getBotonOnda()) {
-                hechizo2.activar(entorno.ancho()/2, entorno.alto()/2);
-                hechizo2.aplicarEfecto(enemigosActivos);
-                hechizo2.reiniciar();
-                menu.liberarSeleccion();
-            }
-        }
+		if (entorno.sePresionoBoton(entorno.BOTON_IZQUIERDO)) {
+    
+			// Hechizo Fuego
+			if (menu.getBotonFuego()) {
+				if (entorno.mouseX() < 550) {
+					hechizo1.setX(entorno.mouseX());
+					hechizo1.setY(entorno.mouseY());
+					hechizo1.reiniciar();
+					menu.liberarSeleccion();
+				} 
+			}
+			// Hechizo Onda
+			if (menu.getBotonOnda()) {
+				if (entorno.mouseX() < 550) {
+					hechizo2.activar(entorno.ancho() / 2, entorno.alto() / 2);
+					hechizo2.aplicarEfecto(enemigosActivos);
+					hechizo2.reiniciar();
+					menu.liberarSeleccion();
+				}
+			}
+		}
+		
      
     
 

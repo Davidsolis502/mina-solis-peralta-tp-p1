@@ -8,7 +8,7 @@ public class Menu {
     private Boton1 botonOnda;
     private boolean hechizoSeleccionado;
     private int puntos;
-    private Personaje personaje;
+    //private Personaje personaje;
 
     public Menu() {
         this.botonFuego = new Boton(720, 150, 100, 50);
