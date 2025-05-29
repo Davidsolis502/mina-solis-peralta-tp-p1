@@ -11,10 +11,8 @@ public class Boton {
 	private int y;
 	private int ancho;
 	private int alto;
-	private Image boton1off;
-	private Image boton1on;
-	//private Image boton2off;
-	///private Image boton2on;
+	private Image botonOff;
+	private Image botonOn;
 	private double escala;
 	private boolean sepresiono;
 
@@ -24,18 +22,16 @@ public class Boton {
 		this.ancho = ancho;
 		this.alto = alto;
 		this.escala= 0.1;
-		this.boton1on=Herramientas.cargarImagen("boton1-activado.png");
-		this.boton1off=Herramientas.cargarImagen("boton1-desactivado.png");
-		//this.boton2on=Herramientas.cargarImagen("boton2-activado.png");
-		//this.boton2off=Herramientas.cargarImagen("boton2-desactivado.png");
+		this.botonOn=Herramientas.cargarImagen("boton1-activado.png");
+		this.botonOff=Herramientas.cargarImagen("boton1-desactivado.png");
 		this.sepresiono=false;
 		
 	}
 	public void dibujarse(Entorno entorno) {
 		if (sepresiono) {
-			entorno.dibujarImagen(boton1on, x, y, 0, escala); // Imagen cuando se presiona
+			entorno.dibujarImagen(botonOn, x, y, 0, escala); // Imagen cuando se presiona
 		} else {
-			entorno.dibujarImagen(boton1off, x, y, 0, escala);  // Imagen por defecto
+			entorno.dibujarImagen(botonOff, x, y, 0, escala);  // Imagen por defecto
 		}
 		//if (sepresiono) {
 			//entorno.dibujarImagen(boton2on, x, y, 0, escala); // Imagen cuando se presiona

@@ -13,8 +13,6 @@ public class Boton1 {
 	private int alto;
 	private Image boton1off;
 	private Image boton1on;
-	//private Image boton2off;
-	///private Image boton2on;
 	private double escala;
 	private boolean sepresiono;
 
@@ -26,8 +24,6 @@ public class Boton1 {
 		this.escala= 0.1;
 		this.boton1on=Herramientas.cargarImagen("boton2-activado.png");
 		this.boton1off=Herramientas.cargarImagen("boton2-desactivado.png");
-		//this.boton2on=Herramientas.cargarImagen("boton2-activado.png");
-		//this.boton2off=Herramientas.cargarImagen("boton2-desactivado.png");
 		this.sepresiono=false;
 		
 	}
