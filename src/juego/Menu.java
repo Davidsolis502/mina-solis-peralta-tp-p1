@@ -1,5 +1,5 @@
 package juego;
-import java.awt.Image;
+//import java.awt.Image;
 import entorno.Entorno;
 
 public class Menu {
@@ -19,12 +19,12 @@ public class Menu {
             if (botonFuego.mouseEstaSobreElBoton(mouseX, mouseY)) {
                 botonFuego.presionar();
                 botonOnda.soltar();
-                hechizoSeleccionado = true;
+                //hechizoSeleccionado = true;
             } 
             else if (botonOnda.mouseEstaSobreElBoton(mouseX, mouseY)) {
                 botonOnda.presionar();
                 botonFuego.soltar();
-                hechizoSeleccionado = true;
+                //hechizoSeleccionado = true;
             }
         }
     }
