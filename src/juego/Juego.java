@@ -21,10 +21,8 @@ public class Juego extends InterfaceJuego {
 	private Personaje personaje;
 	private Enemigo[] enemigosActivos = new Enemigo[10];
 	private EnemigoFinal[] enemigosFinales = new EnemigoFinal[1]; 
-	private EnemigoFinal[] enemigosFinales = new EnemigoFinal[2]; 
 	private int enemigosGenerados = 0;  // Contador de enemigos en la oleada actual
 	private int totalEnemigosGenerados = 0;  // Contador total de enemigos generados
-	private int enemigosEliminados = 0;
 	private int enemigosEliminados = 0;
 	private final int MAX_ENEMIGOS = 50;
 	private final int MAX_ENEMIGOS_EN_PANTALLA = 10;
