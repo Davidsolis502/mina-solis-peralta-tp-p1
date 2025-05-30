@@ -34,6 +34,8 @@ public class Juego extends InterfaceJuego {
 	private HechizoFuego hechizo1;
 	private HechizoOndaExpansiva hechizo2;
 	private boolean mouseClickAnterior = false;
+	private GameOver gameover;
+	
 	
 public void generarEnemigos() {
 	// int x = entorno.ancho() / 2;
@@ -127,6 +129,9 @@ public void generarEnemigos() {
 		menu = new Menu();
 		this.personaje = new Personaje(entorno.ancho() / 2, 220, 80, 80);
 		
+		//inicializa el gameover
+		this.gameover = new GameOver();
+		
 		
 		// Crear las rocas en diferentes posiciones//
 		this.rocas = new Roca[5];
@@ -160,7 +165,14 @@ public void generarEnemigos() {
 		    entorno.escribirTexto("¡Oleada " + (oleadaActual) + " completada!", entorno.ancho()/2 - 100, 30);
 		    entorno.escribirTexto("Preparando siguiente oleada...", entorno.ancho()/2 - 100, 50);
 		}
-
+		  
+		//inicia el game over
+		 if (personaje.getVida()==0) {
+        	gameover.dibujarse(entorno);
+        	
+        	return  ;
+        }
+		
 		// Dibujar objetos en pantalla
 		this.dibujarObjetos();
 
@@ -180,7 +192,7 @@ public void generarEnemigos() {
 			personaje.moverArriba();
 		}
 
-		// Movimiento y actualización de enemigos normales
+			// Movimiento y actualización de enemigos normales
 		for (int i = 0; i < enemigosActivos.length; i++) {
 		    if (enemigosActivos[i] != null) {
 		        enemigosActivos[i].seguirPersonaje(this.personaje);
@@ -192,7 +204,9 @@ public void generarEnemigos() {
 		            enemigosActivos[i] = null;
 		            if (personaje.getVida() > 0) {
 		                personaje.restarVida();
+		           
 		            }
+		     
 		            enemigosEliminados++;
 		            menu.sumarPuntos();
 		        }
@@ -278,6 +292,9 @@ public void generarEnemigos() {
 					hechizo2.activar(entorno.mouseX(), entorno.mouseY());
 					hechizo2.reiniciar();
 					menu.liberarSeleccion();
+					if(personaje.getPoder()>0){
+						personaje.restarPoder();
+					}
 				}
 			}
 		}
