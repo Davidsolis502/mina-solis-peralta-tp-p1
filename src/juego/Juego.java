@@ -201,6 +201,9 @@ public void generarEnemigos() {
 					hechizo2.aplicarEfecto(enemigosActivos);
 					hechizo2.reiniciar();
 					menu.liberarSeleccion();
+					if(personaje.getPoder()>0){
+						personaje.restarPoder();
+					}
 				}
 			}
 		}

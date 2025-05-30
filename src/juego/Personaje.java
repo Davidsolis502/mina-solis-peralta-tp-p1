@@ -141,7 +141,7 @@ public class Personaje {
 		this.vida-=5;
 	}
 	public void restarPoder(){
-		this.poder=-25;
+		this.poder-=25;
 	}
 	
 }
