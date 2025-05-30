@@ -20,8 +20,11 @@ public class Juego extends InterfaceJuego {
 	private Roca[] rocas;
 	private Personaje personaje;
 	private Enemigo[] enemigosActivos = new Enemigo[10];
+	private EnemigoFinal[] enemigosFinales = new EnemigoFinal[1]; 
 	private EnemigoFinal[] enemigosFinales = new EnemigoFinal[2]; 
-	private int enemigosGenerados = 0;
+	private int enemigosGenerados = 0;  // Contador de enemigos en la oleada actual
+	private int totalEnemigosGenerados = 0;  // Contador total de enemigos generados
+	private int enemigosEliminados = 0;
 	private int enemigosEliminados = 0;
 	private final int MAX_ENEMIGOS = 50;
 	private final int MAX_ENEMIGOS_EN_PANTALLA = 10;
@@ -37,6 +40,7 @@ public class Juego extends InterfaceJuego {
 	private GameOver gameover;
 	
 	
+	
 public void generarEnemigos() {
 	// int x = entorno.ancho() / 2;
 	// int y = 50; 
@@ -44,74 +48,85 @@ public void generarEnemigos() {
     timer.scheduleAtFixedRate(new TimerTask() {
         @Override
         public void run() {
-            if (enemigosEliminados >= MAX_ENEMIGOS) {
-                // Generar enemigo final cuando se acaban los enemigos normales
-                if (enemigosFinales[0] == null) {
-                    int x = entorno.ancho() / 2;
-                    int y = 50; // Aparece en la parte superior
-                    enemigosFinales[0] = new EnemigoFinal(x, y);
-                }
-                return;
-            }
-            
-            // Contar enemigos activos
-            int activos = 0;
-            for (Enemigo enemigo : enemigosActivos) {
-                if (enemigo != null) activos++;
-            }
-            
-            // Verificar si terminó la oleada actual
-            if (enemigosGenerados >= enemigosEnOleada && activos == 0 && !entreOleadas) {
-                entreOleadas = true;
-                timerEntreOleadas.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        // Iniciar nueva oleada después del tiempo de espera
-                        entreOleadas = false;
-                        oleadaActual++;
-                        enemigosGenerados = 0;
-                        enemigosEnOleada += 3; // Aumentar enemigos para la próxima oleada
-                        if (enemigosEnOleada > 15) enemigosEnOleada = 15; // Límite de enemigos por oleada
+            synchronized(this) {
+                if (enemigosEliminados == MAX_ENEMIGOS) {
+                    // Generar enemigo final cuando se acaban los enemigos normales
+                    if (enemigosFinales[0] == null) {
+                        int x = entorno.ancho() / 2;
+                        int y = 50; // Aparece en la parte superior
+                        enemigosFinales[0] = new EnemigoFinal(x, y);
                     }
-                }, 3000); // 3 segundos de espera
-                return;
-            }
-            // Generar nuevos enemigos si no estamos entre oleadas
-            if (!entreOleadas && activos < MAX_ENEMIGOS_EN_PANTALLA && enemigosGenerados < enemigosEnOleada && enemigosGenerados < MAX_ENEMIGOS) {
-                int borde = random.nextInt(4); 
-                int x = 0, y = 0;
-                int anchoEnemigo = 25;
-                int anchoMenu = 200;
-
-                switch (borde) {
-                    case 0: // Borde superior
-                        x = random.nextInt(entorno.ancho());
-                        if (x > anchoMenu) x = x - anchoMenu;
-                        y = anchoEnemigo;
-                        break;
-                    case 1: // Borde inferior
-                        x = random.nextInt(entorno.ancho());
-                        if (x > anchoMenu) x = x - anchoMenu;
-                        y = entorno.alto() - anchoEnemigo;
-                        break;
-                    case 2: // Borde izquierdo
-                        x = anchoEnemigo;
-                        y = random.nextInt(entorno.alto() - anchoEnemigo);
-                        if(y < anchoMenu) y = y + anchoMenu;
-                        break;
-                    case 3: // Borde derecho
-                        x = entorno.ancho() - anchoMenu;
-                        y = random.nextInt(entorno.alto() - anchoEnemigo);
-                        if(y < anchoMenu) y = y + anchoMenu;
-                        break;
+                    return;
                 }
-                Enemigo enemigo = new Enemigo(x, y);
-                for (int i = 0; i < enemigosActivos.length; i++) {
-                    if (enemigosActivos[i] == null) {
-                        enemigosActivos[i] = enemigo;
-                        enemigo.setIndice(i);
-                        enemigosGenerados++;
-                        break;
+                
+                // Contar enemigos activos
+                int activos = 0;
+                for (Enemigo enemigo : enemigosActivos) {
+                    if (enemigo != null) activos++;
+                }
+                
+                // Verificar si terminó la oleada actual
+                if (enemigosGenerados == enemigosEnOleada && activos == 0 && !entreOleadas && totalEnemigosGenerados < MAX_ENEMIGOS - 3) {
+					System.out.println("Enemigos generados en oleada: " + enemigosGenerados);
+                    entreOleadas = true;
+                    timerEntreOleadas.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            // Iniciar nueva oleada después del tiempo de espera
+                            entreOleadas = false;
+                            oleadaActual++;
+                            enemigosGenerados = 0;  // Reiniciamos solo el contador de la oleada
+                            enemigosEnOleada += 3; // Aumentar enemigos para la próxima oleada
+                            if (enemigosEnOleada > 15) enemigosEnOleada = 15; // Límite de enemigos por oleada
+                        }
+                    }, 500); // 3 segundos de espera
+                    return;
+                }
+                
+                // Verificar si ya alcanzamos el máximo de enemigos
+                if (totalEnemigosGenerados >= MAX_ENEMIGOS) {
+                    return;
+                }
+
+                // Generar nuevos enemigos si no estamos entre oleadas
+                if (!entreOleadas && activos < MAX_ENEMIGOS_EN_PANTALLA && enemigosGenerados < enemigosEnOleada) {
+                    int borde = random.nextInt(4); 
+                    int x = 0, y = 0;
+                    int anchoEnemigo = 25;
+                    int anchoMenu = 200;
+
+                    switch (borde) {
+                        case 0: // Borde superior
+                            x = random.nextInt(entorno.ancho());
+                            if (x > anchoMenu) x = x - anchoMenu;
+                            y = anchoEnemigo;
+                            break;
+                        case 1: // Borde inferior
+                            x = random.nextInt(entorno.ancho());
+                            if (x > anchoMenu) x = x - anchoMenu;
+                            y = entorno.alto() - anchoEnemigo;
+                            break;
+                        case 2: // Borde izquierdo
+                            x = anchoEnemigo;
+                            y = random.nextInt(entorno.alto() - anchoEnemigo);
+                            if(y < anchoMenu) y = y + anchoMenu;
+                            break;
+                        case 3: // Borde derecho
+                            x = entorno.ancho() - anchoMenu;
+                            y = random.nextInt(entorno.alto() - anchoEnemigo);
+                            if(y < anchoMenu) y = y + anchoMenu;
+                            break;
+                    }
+                    Enemigo enemigo = new Enemigo(x, y);
+                    for (int i = 0; i < enemigosActivos.length; i++) {
+                        if (enemigosActivos[i] == null) {
+                            enemigosActivos[i] = enemigo;
+                            // enemigo.setIndice(i);
+                            enemigosGenerados++;
+                            totalEnemigosGenerados++;  // Incrementamos el contador total
+                            System.out.println("Enemigos totales generados: " + totalEnemigosGenerados);
+                            break;
+                        }
                     }
                 }
             }
@@ -165,6 +180,14 @@ public void generarEnemigos() {
 		    entorno.escribirTexto("¡Oleada " + (oleadaActual) + " completada!", entorno.ancho()/2 - 100, 30);
 		    entorno.escribirTexto("Preparando siguiente oleada...", entorno.ancho()/2 - 100, 50);
 		}
+
+		// Mostrar información de la oleada
+		entorno.escribirTexto("Oleada: " + oleadaActual, 10, 20);
+		entorno.escribirTexto("Enemigos: " + enemigosEliminados + "/" + MAX_ENEMIGOS, 10, 40);
+		if (entreOleadas) {
+		    entorno.escribirTexto("¡Oleada " + (oleadaActual) + " completada!", entorno.ancho()/2 - 100, 30);
+		    entorno.escribirTexto("Preparando siguiente oleada...", entorno.ancho()/2 - 100, 50);
+		}
 		  
 		//inicia el game over
 		 if (personaje.getVida()==0) {
@@ -192,7 +215,7 @@ public void generarEnemigos() {
 			personaje.moverArriba();
 		}
 
-			// Movimiento y actualización de enemigos normales
+		// Movimiento y actualización de enemigos normales
 		for (int i = 0; i < enemigosActivos.length; i++) {
 		    if (enemigosActivos[i] != null) {
 		        enemigosActivos[i].seguirPersonaje(this.personaje);
@@ -204,9 +227,7 @@ public void generarEnemigos() {
 		            enemigosActivos[i] = null;
 		            if (personaje.getVida() > 0) {
 		                personaje.restarVida();
-		           
 		            }
-		     
 		            enemigosEliminados++;
 		            menu.sumarPuntos();
 		        }
@@ -224,7 +245,6 @@ public void generarEnemigos() {
 		if (enemigosFinales[0] != null && enemigosFinales[0].getVidas() > 0) {
 		    EnemigoFinal enemigoFinal = enemigosFinales[0];
 		    enemigoFinal.seguirPersonaje(this.personaje);
-		    System.out.println("Enemigo final: " + enemigoFinal.getVidas());
 		    // Verificar colisión con hechizo de fuego
 		    if (hechizo1.estaActivo()) {
 		        // Verificar colisión simple basada en posición
