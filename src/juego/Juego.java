@@ -27,6 +27,8 @@ public class Juego extends InterfaceJuego {
 	private HechizoFuego hechizo1;
 	private HechizoOndaExpansiva hechizo2;
 	private boolean mouseClickAnterior = false;
+	private GameOver gameover;
+	
 
 public void generarEnemigos() {
     timer.scheduleAtFixedRate(new TimerTask() {
@@ -93,6 +95,9 @@ public void generarEnemigos() {
 		menu = new Menu();
 		this.personaje = new Personaje(entorno.ancho() / 2, 220, 80, 80);
 		
+		//inicializa el gameover
+		this.gameover = new GameOver();
+		
 		
 		// Crear las rocas en diferentes posiciones//
 		this.rocas = new Roca[5];
@@ -118,7 +123,14 @@ public void generarEnemigos() {
 	public void tick() {
 		// Fondo
 		this.entorno.dibujarImagen(this.fondo, this.entorno.ancho() / 2, this.entorno.alto() / 2, 0.0, 1.0);
-
+		  
+		//inicia el game over
+		 if (personaje.getVida()==0) {
+        	gameover.dibujarse(entorno);
+        	
+        	return  ;
+        }
+		
 		// Dibujar objetos en pantalla
 		this.dibujarObjetos();
 
@@ -138,7 +150,7 @@ public void generarEnemigos() {
 			personaje.moverArriba();
 		}
 
-
+	
 
 
 
@@ -151,7 +163,9 @@ public void generarEnemigos() {
 		            enemigosActivos[i] = null;
 		            if (personaje.getVida() > 0) {
 		           		personaje.restarVida();
+		           
 		           	}
+		     
 		 
 		        }
 		        else if (enemigosActivos[i].fueraDeLimite(entorno)) {
