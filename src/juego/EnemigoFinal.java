@@ -1,0 +1,82 @@
+package juego;
+
+import java.awt.Image;
+import entorno.Entorno;
+import entorno.Herramientas;
+
+public class EnemigoFinal {
+    private int x;
+    private int y;
+    private int indice;
+    private Image imagenEnemigo;
+    private double escala;
+    private int vidas;
+    
+    public EnemigoFinal(int x, int y) {
+        this.x = x;
+        this.y = y;
+        this.imagenEnemigo = Herramientas.cargarImagen("gif-murcielago.gif");
+        this.escala = 0.80; // Tamaño más grande que el enemigo normal
+        this.vidas = 60; // Requiere 3 golpes de hechizo
+        this.indice = 0;
+    }
+    
+    public void dibujarse(Entorno entorno) {
+            entorno.dibujarImagen(imagenEnemigo, x, y, 0, escala);
+    }
+    
+    public void seguirPersonaje(Personaje personaje) {
+        
+        // Seguir al personaje
+        int dx = personaje.getX() - this.x;
+        int dy = personaje.getY() - this.y;
+        double distancia = Math.sqrt(dx * dx + dy * dy);
+        
+        if (distancia > 0) {
+            dx = (int) (dx / distancia * 2); // Velocidad reducida
+            dy = (int) (dy / distancia * 2);
+        }
+        
+        this.x += dx;
+        this.y += dy;
+    }
+    
+    public void recibirDaño() {
+            vidas--;
+            // if (vidas <= 0) {
+            //     eliminado = true;
+            // }
+        }
+    
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+    
+    public int getIndice() {
+        return indice;
+    }
+
+    public void setIndice(int i) {
+        this.indice = i;
+    }
+    
+    public int getDiametro() {
+        return (int)(50 * escala); // Ajustar según el tamaño de la imagen
+    }
+    
+    public int getVidas() {
+        return vidas;
+    }
+}
