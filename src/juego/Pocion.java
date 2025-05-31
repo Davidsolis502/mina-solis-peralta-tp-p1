@@ -17,8 +17,8 @@ public class Pocion {
 		this.ancho = (int) (pocion.getWidth(null) * escala);
 
 		//posicion aleatoria//
-		this.x = (int)(Math.random() * (400 - ancho));
-		this.y = (int)(Math.random() * (400 - ancho));
+		this.x = (int)(Math.random() * (300 - ancho));
+		this.y = (int)(Math.random() * (300 - ancho));
 	}
 
 	public int getX() {
