@@ -1,6 +1,6 @@
 package juego;
 
-import java.awt.Color;
+//import java.awt.Color;
 import java.awt.Image;
 
 import entorno.Entorno;
@@ -141,7 +141,7 @@ public void generarEnemigos() {
 		this.fondo = Herramientas.cargarImagen("fondo-juego.jpg"); 
 		// Inicializar variables del juego
 		menu = new Menu();
-		this.personaje = new Personaje(entorno.ancho() / 2, 220, 80, 80);
+		this.personaje = new Personaje(entorno.ancho() / 2, 220, 80, 63);
 		pocion = new Pocion();
 
 		//inicializa el gameover
