@@ -178,7 +178,7 @@ public void generarEnemigos() {
 		entorno.escribirTexto("Oleada: " + oleadaActual, 10, 20);
 		//entorno.escribirTexto("Enemigos: " + enemigosEliminados + "/" + MAX_ENEMIGOS, 10, 40);
 		if (entreOleadas) {
-			entorno.cambiarFont("Arial", 15, java.awt.Color.white, entorno.NEGRITA);
+			//entorno.cambiarFont("Arial", 15, java.awt.Color.white, entorno.NEGRITA);
 		    entorno.escribirTexto("¡Oleada " + (oleadaActual) + " completada!", entorno.ancho()/2 - 100, 30);
 		    entorno.escribirTexto("Preparando siguiente oleada...", entorno.ancho()/2 - 100, 50);
 		}
@@ -189,7 +189,7 @@ public void generarEnemigos() {
 		//entorno.cambiarFont("Arial", 20, java.awt.Color.BLACK, entorno.NEGRITA);
 		//entorno.escribirTexto("Enemigos: " + enemigosEliminados + "/" + MAX_ENEMIGOS, 10, 40);
 		if (entreOleadas) {
-			entorno.cambiarFont("Arial", 15, java.awt.Color.white, entorno.NEGRITA);
+			//entorno.cambiarFont("Arial", 15, java.awt.Color.white, entorno.NEGRITA);
 		    entorno.escribirTexto("¡Oleada " + (oleadaActual) + " completada!", entorno.ancho()/2 - 100, 30);
 		    entorno.escribirTexto("Preparando siguiente oleada...", entorno.ancho()/2 - 100, 50);
 		}
@@ -198,7 +198,7 @@ public void generarEnemigos() {
 		 if (personaje.getVida()==0) {
         	gameover.dibujarse(entorno);
         	
-        	return  ;
+        	return; // detiene el tick
         }
 		
 		// Dibujar objetos en pantalla
@@ -219,9 +219,10 @@ public void generarEnemigos() {
 			personaje.moverArriba();
 		}
 		//texto ganaste//
-		if(menu.getPuntos()==51){
+		if(menu.getPuntos()>=51){
 			entorno.cambiarFont("Arial", 100, java.awt.Color.green, entorno.NEGRITA);
             entorno.escribirTexto("GANASTE",90,300);
+			return; // detiene el tick
 		}
 
 		// Movimiento y actualización de enemigos normales
