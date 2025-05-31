@@ -23,7 +23,6 @@ public class Juego extends InterfaceJuego {
 	private EnemigoFinal[] enemigosFinales = new EnemigoFinal[1]; 
 	private int enemigosGenerados = 0;  // Contador de enemigos en la oleada actual
 	private int totalEnemigosGenerados = 0;  // Contador total de enemigos generados
-	private int enemigosEliminados = 0;
 	private final int MAX_ENEMIGOS = 50;
 	private final int MAX_ENEMIGOS_EN_PANTALLA = 10;
 	private int oleadaActual = 1;
@@ -48,11 +47,11 @@ public void generarEnemigos() {
         @Override
         public void run() {
             synchronized(this) {
-                if (enemigosEliminados == MAX_ENEMIGOS) {
+                if (menu.getPuntos() == MAX_ENEMIGOS) {
                     // Generar enemigo final cuando se acaban los enemigos normales
                     if (enemigosFinales[0] == null) {
                         int x = entorno.ancho() / 2;
-                        int y = 50; // Aparece en la parte superior
+                        int y = 50; 
                         enemigosFinales[0] = new EnemigoFinal(x, y);
                     }
                     return;
@@ -78,7 +77,7 @@ public void generarEnemigos() {
                             enemigosEnOleada += 3; // Aumentar enemigos para la próxima oleada
                             if (enemigosEnOleada > 15) enemigosEnOleada = 15; // Límite de enemigos por oleada
                         }
-                    }, 500); // 3 segundos de espera
+                    }, 3000); // 3 segundos de espera
                     return;
                 }
                 
@@ -176,7 +175,7 @@ public void generarEnemigos() {
 		// Mostrar información de la oleada
 		entorno.cambiarFont("Arial", 15, java.awt.Color.white, entorno.NEGRITA);
 		entorno.escribirTexto("Oleada: " + oleadaActual, 10, 20);
-		//entorno.escribirTexto("Enemigos: " + enemigosEliminados + "/" + MAX_ENEMIGOS, 10, 40);
+		// entorno.escribirTexto("Puntos: " + menu.getPuntos() + "/" + MAX_ENEMIGOS, 10, 40);
 		if (entreOleadas) {
 			//entorno.cambiarFont("Arial", 15, java.awt.Color.white, entorno.NEGRITA);
 		    entorno.escribirTexto("¡Oleada " + (oleadaActual) + " completada!", entorno.ancho()/2 - 100, 30);
@@ -187,7 +186,7 @@ public void generarEnemigos() {
 		entorno.cambiarFont("Arial", 15, java.awt.Color.white, entorno.NEGRITA);
 		entorno.escribirTexto("Oleada: " + oleadaActual, 10, 20);
 		//entorno.cambiarFont("Arial", 20, java.awt.Color.BLACK, entorno.NEGRITA);
-		//entorno.escribirTexto("Enemigos: " + enemigosEliminados + "/" + MAX_ENEMIGOS, 10, 40);
+		//entorno.escribirTexto("Puntos: " + menu.getPuntos() + "/" + MAX_ENEMIGOS, 10, 40);
 		if (entreOleadas) {
 			//entorno.cambiarFont("Arial", 15, java.awt.Color.white, entorno.NEGRITA);
 		    entorno.escribirTexto("¡Oleada " + (oleadaActual) + " completada!", entorno.ancho()/2 - 100, 30);
@@ -232,13 +231,12 @@ public void generarEnemigos() {
 		        
 		        if (enemigosActivos[i].fueraDeLimite(entorno)) {
 		            enemigosActivos[i] = null;
-		            enemigosEliminados++;
+		            menu.sumarPuntos();
 		        } else if (this.personaje.colisionConEnemigo(enemigosActivos[i])) {
 		            enemigosActivos[i] = null;
 		            if (personaje.getVida() > 0) {
 		                personaje.restarVida();
 		            }
-		            enemigosEliminados++;
 		            menu.sumarPuntos();
 		        }
 		    }
@@ -276,7 +274,6 @@ public void generarEnemigos() {
 	    // Verificar si el enemigo final está eliminado después de todos los daños
 	    if (enemigoFinal.getVidas() == 0) {
 	        enemigosFinales[0] = null;
-	        enemigosEliminados++;
 	        menu.sumarPuntos();
 	    }
 	}
@@ -293,7 +290,6 @@ public void generarEnemigos() {
            Enemigo enemigo = enemigosActivos[i];
     	       if (enemigo != null && hechizo1.EnemigoEnRango(enemigo)) {
            enemigosActivos[i] = null;
-           enemigosEliminados++;
            menu.sumarPuntos(); // sumás puntos si lo eliminás
     }
 }
