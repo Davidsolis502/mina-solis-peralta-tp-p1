@@ -245,7 +245,7 @@ public void generarEnemigos() {
 		
 		// Actualizar y dibujar hechizo de onda expansiva
 		if (hechizo2.estaActivo()) {
-		    hechizo2.aplicarEfecto(enemigosActivos);
+		    hechizo2.aplicarEfecto(enemigosActivos,menu);
 		    hechizo2.dibujarse(entorno);
 		    hechizo2.actualizar();
 		}
