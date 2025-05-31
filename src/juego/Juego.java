@@ -402,7 +402,8 @@ public void generarEnemigos() {
 
 		// Dibujar pocion//
 		personaje.dibujar(entorno);
-		if (pocion != null && menu.getPuntos()>20) {
+		if (pocion != null && menu.getPuntos()>20 && personaje.getVida()<=75) { // la pocion aparece si los puntos es mayor a 20 y la vida 
+			                                                                    // es igual o menor a 75
 			pocion.dibujarse(entorno);
 		}
 		
