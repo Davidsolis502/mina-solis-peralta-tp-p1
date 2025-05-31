@@ -1,6 +1,6 @@
 package juego;
 
-//import java.awt.Color;//
+import java.awt.Color;
 import java.awt.Image;
 
 import entorno.Entorno;
@@ -36,6 +36,7 @@ public class Juego extends InterfaceJuego {
 	private HechizoOndaExpansiva hechizo2;
 	private boolean mouseClickAnterior = false;
 	private GameOver gameover;
+	private Pocion pocion;
 	
 	
 	
@@ -141,7 +142,8 @@ public void generarEnemigos() {
 		// Inicializar variables del juego
 		menu = new Menu();
 		this.personaje = new Personaje(entorno.ancho() / 2, 220, 80, 80);
-		
+		pocion = new Pocion();
+
 		//inicializa el gameover
 		this.gameover = new GameOver();
 		
@@ -165,24 +167,29 @@ public void generarEnemigos() {
 		this.entorno.iniciar();
 		this.menu.dibujar(entorno,personaje);
 		this.generarEnemigos();
+
 	}
 
 	public void tick() {
 		// Fondo
 		this.entorno.dibujarImagen(this.fondo, this.entorno.ancho() / 2, this.entorno.alto() / 2, 0.0, 1.0);
-
 		// Mostrar información de la oleada
+		entorno.cambiarFont("Arial", 15, java.awt.Color.white, entorno.NEGRITA);
 		entorno.escribirTexto("Oleada: " + oleadaActual, 10, 20);
-		entorno.escribirTexto("Enemigos: " + enemigosEliminados + "/" + MAX_ENEMIGOS, 10, 40);
+		//entorno.escribirTexto("Enemigos: " + enemigosEliminados + "/" + MAX_ENEMIGOS, 10, 40);
 		if (entreOleadas) {
+			entorno.cambiarFont("Arial", 15, java.awt.Color.white, entorno.NEGRITA);
 		    entorno.escribirTexto("¡Oleada " + (oleadaActual) + " completada!", entorno.ancho()/2 - 100, 30);
 		    entorno.escribirTexto("Preparando siguiente oleada...", entorno.ancho()/2 - 100, 50);
 		}
 
 		// Mostrar información de la oleada
+		entorno.cambiarFont("Arial", 15, java.awt.Color.white, entorno.NEGRITA);
 		entorno.escribirTexto("Oleada: " + oleadaActual, 10, 20);
-		entorno.escribirTexto("Enemigos: " + enemigosEliminados + "/" + MAX_ENEMIGOS, 10, 40);
+		//entorno.cambiarFont("Arial", 20, java.awt.Color.BLACK, entorno.NEGRITA);
+		//entorno.escribirTexto("Enemigos: " + enemigosEliminados + "/" + MAX_ENEMIGOS, 10, 40);
 		if (entreOleadas) {
+			entorno.cambiarFont("Arial", 15, java.awt.Color.white, entorno.NEGRITA);
 		    entorno.escribirTexto("¡Oleada " + (oleadaActual) + " completada!", entorno.ancho()/2 - 100, 30);
 		    entorno.escribirTexto("Preparando siguiente oleada...", entorno.ancho()/2 - 100, 50);
 		}
@@ -196,7 +203,6 @@ public void generarEnemigos() {
 		
 		// Dibujar objetos en pantalla
 		this.dibujarObjetos();
-
 		// Movimiento del personaje
 		if (entorno.estaPresionada(entorno.TECLA_DERECHA)
 				&& !personaje.colisionaPorDerecha(entorno)) {
@@ -211,6 +217,11 @@ public void generarEnemigos() {
 		}
 		if (entorno.estaPresionada(entorno.TECLA_ARRIBA)) {
 			personaje.moverArriba();
+		}
+		//texto ganaste//
+		if(menu.getPuntos()==51){
+			entorno.cambiarFont("Arial", 100, java.awt.Color.green, entorno.NEGRITA);
+            entorno.escribirTexto("GANASTE",90,300);
 		}
 
 		// Movimiento y actualización de enemigos normales
@@ -305,7 +316,7 @@ public void generarEnemigos() {
 				} 
 			}
 			// Hechizo Onda
-			if (menu.getBotonOnda()) {
+			if (menu.getBotonOnda() && personaje.getPoder()>0){
 				if (entorno.mouseX() < 550) {
 					hechizo2.activar(entorno.mouseX(), entorno.mouseY());
 					hechizo2.reiniciar();
@@ -316,9 +327,11 @@ public void generarEnemigos() {
 				}
 			}
 		}
-		
-     
-    
+		// Si hay poción y el personaje la toca
+       if (pocion != null && personaje.colisionConPocion(pocion)) {
+        personaje.sumarVida(); // o cualquier lógica de mejora
+        pocion = null; // para que desaparezca
+       }
 
         // actualizacion y dibujo de clicks
         if (hechizo1.estaActivo()) {
@@ -382,13 +395,17 @@ public void generarEnemigos() {
 		if (enemigosFinales[0] != null && enemigosFinales[0].getVidas() > 0) {
 		    enemigosFinales[0].dibujarse(entorno);
 		    // Mostrar vidas del enemigo final
+			entorno.cambiarFont("Arial", 15, java.awt.Color.white, entorno.NEGRITA);
 		    entorno.escribirTexto("Vidas: " + enemigosFinales[0].getVidas(), 
 				enemigosFinales[0].getX(), enemigosFinales[0].getY() - 40);
 		}
 
-		// Dibujar personaje
+		// Dibujar pocion//
 		personaje.dibujar(entorno);
-
+		if (pocion != null && menu.getPuntos()>20) {
+			pocion.dibujarse(entorno);
+		}
+		
 		//Dibujar menu//
 		menu.dibujar(entorno, personaje);
 	}

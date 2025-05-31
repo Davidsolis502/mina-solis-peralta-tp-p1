@@ -137,11 +137,36 @@ public class Personaje {
 	
 		return colisiona;
 	}
+	public boolean colisionConPocion(Pocion p) {
+		if (p == null) {
+			return false;
+		}
+	
+		int ladoIzquierdo = this.x - (this.ancho / 2);
+		int ladoDerecho = this.x + (this.ancho / 2);
+		int ladoSuperior = this.y - (this.alto / 2);
+		int ladoInferior = this.y + (this.alto / 2);
+	
+		int pocionIzq = p.getX() - (p.getAncho() / 2);
+		int pocionDer = p.getX() + (p.getAncho() / 2);
+		int pocionSup = p.getY() - (p.getAncho() / 2);
+		int pocionInf = p.getY() + (p.getAncho() / 2);
+	
+		boolean colisiona = ladoDerecho > pocionIzq && ladoIzquierdo < pocionDer &&
+							ladoInferior > pocionSup && ladoSuperior < pocionInf;
+	
+		return colisiona;
+	}
+	
 	public void restarVida() {
 		this.vida-=5;
 	}
 	public void restarPoder(){
 		this.poder-=25;
 	}
+
+    public void sumarVida() {
+        this.vida+=25;
+    }
 	
 }
