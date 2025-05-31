@@ -12,13 +12,13 @@ public class Pocion {
 	private int ancho;
 
 	public Pocion() {
-		this.escala = 0.07;
+		this.escala = 0.05;
 		this.pocion = Herramientas.cargarImagen("pocion.png");
 		this.ancho = (int) (pocion.getWidth(null) * escala);
 
 		//posicion aleatoria//
-		this.x = (int)(Math.random() * (800 - ancho));
-		this.y = (int)(Math.random() * (500 - ancho));
+		this.x = (int)(Math.random() * (400 - ancho));
+		this.y = (int)(Math.random() * (400 - ancho));
 	}
 
 	public int getX() {
