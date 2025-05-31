@@ -27,11 +27,12 @@ public class HechizoOndaExpansiva {
         }
     }
     
-    public void aplicarEfecto(Enemigo[] enemigos) {
+    public void aplicarEfecto(Enemigo[] enemigos, Menu menu) {
         if (activo) {
             for (int i = 0; i < enemigos.length; i++) {
                 if (enemigos[i] != null) {
                     enemigos[i] = null;
+                    menu.sumarPuntos();
                 }
             }
             this.activo = false; // Se desactiva inmediatamente despues de aplicar el efecto
