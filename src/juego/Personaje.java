@@ -37,17 +37,21 @@ public class Personaje {
 		}
 	}
 
-	public void moverDerecha() {
+	public void moverDerecha(Entorno entorno) {
+		if (!colisionaPorDerecha(entorno)){
 		this.x +=2;
 		this.direccionDerecha = true;
+		}
 	}
 
-	public void moverIzquierda() {
+	public void moverIzquierda(Entorno entorno) {
+		if(!colisionaPorIzquierda(entorno)){
 		this.x -=2;
 		this.direccionDerecha = false;
+		}
 	}
 
-	public void moverArriba() {
+	public void moverArriba(Entorno entorno) {
 		if (!colisionaPorArriba()) {
 			this.y -= 2;
 		}
