@@ -29,15 +29,10 @@ public class Boton {
 	}
 	public void dibujarse(Entorno entorno) {
 		if (sepresiono) {
-			entorno.dibujarImagen(botonOn, x, y, 0, escala); // Imagen cuando se presiona
+			entorno.dibujarImagen(botonOn, x, y, 0, escala); /* Imagen cuando se presiona*/
 		} else {
-			entorno.dibujarImagen(botonOff, x, y, 0, escala);  // Imagen por defecto
+			entorno.dibujarImagen(botonOff, x, y, 0, escala);  /*Imagen sin estar presionado*/
 		}
-		//if (sepresiono) {
-			//entorno.dibujarImagen(boton2on, x, y, 0, escala); // Imagen cuando se presiona
-		//} else {
-			//entorno.dibujarImagen(boton2off, x, y, 0, escala);  // Imagen por defecto
-		//}
 	}
 	public void presionar() {
 		sepresiono = true;

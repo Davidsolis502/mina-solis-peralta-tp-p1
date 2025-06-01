@@ -63,17 +63,17 @@ public void generarEnemigos() {
                     if (enemigo != null) activos++;
                 }
                 
-                // Verificar si terminó la oleada actual
+                // Verifica si termino la oleada actual
                 if (enemigosGenerados == enemigosEnOleada && activos == 0 && !entreOleadas && totalEnemigosGenerados < MAX_ENEMIGOS - 3) {
 					System.out.println("Enemigos generados en oleada: " + enemigosGenerados);
                     entreOleadas = true;
                     timerEntreOleadas.schedule(new TimerTask() {
                         @Override
                         public void run() {
-                            // Iniciar nueva oleada después del tiempo de espera
+                            // Inicia nueva oleada despué del tiempo de espera
                             entreOleadas = false;
                             oleadaActual++;
-                            enemigosGenerados = 0;  // Reiniciamos solo el contador de la oleada
+                            enemigosGenerados = 0;  // Reinicia solo el contador de la oleada
                             enemigosEnOleada += 3; // Aumentar enemigos para la próxima oleada
                             if (enemigosEnOleada > 15) enemigosEnOleada = 15; // Límite de enemigos por oleada
                         }
@@ -147,7 +147,7 @@ public void generarEnemigos() {
 		this.gameover = new GameOver();
 		
 		
-		// Crear las rocas en diferentes posiciones//
+		/* Crea las rocas en diferentes posiciones*/
 		this.rocas = new Roca[5];
         rocas[0] = new Roca(170, 120); // superior
         rocas[1] = new Roca(110, 250); // izquierda media
@@ -172,23 +172,19 @@ public void generarEnemigos() {
 	public void tick() {
 		// Fondo
 		this.entorno.dibujarImagen(this.fondo, this.entorno.ancho() / 2, this.entorno.alto() / 2, 0.0, 1.0);
-		// Mostrar información de la oleada
+		// Mostra informacion de la oleada
 		entorno.cambiarFont("Arial", 15, java.awt.Color.white, entorno.NEGRITA);
 		entorno.escribirTexto("Oleada: " + oleadaActual, 10, 20);
-		// entorno.escribirTexto("Puntos: " + menu.getPuntos() + "/" + MAX_ENEMIGOS, 10, 40);
 		if (entreOleadas) {
-			//entorno.cambiarFont("Arial", 15, java.awt.Color.white, entorno.NEGRITA);
 		    entorno.escribirTexto("¡Oleada " + (oleadaActual) + " completada!", entorno.ancho()/2 - 100, 30);
 		    entorno.escribirTexto("Preparando siguiente oleada...", entorno.ancho()/2 - 100, 50);
 		}
 
-		// Mostrar información de la oleada
+		// Muestra informacion de la oleada
 		entorno.cambiarFont("Arial", 15, java.awt.Color.white, entorno.NEGRITA);
 		entorno.escribirTexto("Oleada: " + oleadaActual, 10, 20);
-		//entorno.cambiarFont("Arial", 20, java.awt.Color.BLACK, entorno.NEGRITA);
-		//entorno.escribirTexto("Puntos: " + menu.getPuntos() + "/" + MAX_ENEMIGOS, 10, 40);
+
 		if (entreOleadas) {
-			//entorno.cambiarFont("Arial", 15, java.awt.Color.white, entorno.NEGRITA);
 		    entorno.escribirTexto("¡Oleada " + (oleadaActual) + " completada!", entorno.ancho()/2 - 100, 30);
 		    entorno.escribirTexto("Preparando siguiente oleada...", entorno.ancho()/2 - 100, 50);
 		}
@@ -225,7 +221,7 @@ public void generarEnemigos() {
 		}
 		
 
-		// Movimiento y actualización de enemigos normales
+		// Movimiento y actualizacion de enemigos normales
 		for (int i = 0; i < enemigosActivos.length; i++) {
 		    if (enemigosActivos[i] != null) {
 		        enemigosActivos[i].seguirPersonaje(this.personaje);
@@ -240,11 +236,6 @@ public void generarEnemigos() {
 		            }
 		            menu.sumarPuntos();
 		        } 
-				// else if (this.personaje.colisionConEnemigoFinal(enemigosFinales[0])) {
-		        //     if (personaje.getVida() > 0) {
-		        //         personaje.restarVida();
-		        //     }
-		        // }
 		    }
 		}
 		if (enemigosFinales[0] != null && enemigosFinales[0].getVidas() > 0) {
@@ -262,13 +253,13 @@ public void generarEnemigos() {
 		    hechizo2.actualizar();
 		}
 
-		// Movimiento y actualización del enemigo final
+		// Movimiento y actualizacion del enemigo final
 		if (enemigosFinales[0] != null && enemigosFinales[0].getVidas() > 0) {
 		    EnemigoFinal enemigoFinal = enemigosFinales[0];
 		    enemigoFinal.seguirPersonaje(this.personaje);
-		    // Verificar colisión con hechizo de fuego
+		    // Verifica la colision con hechizo de fuego
 		    if (hechizo1.estaActivo()) {
-		        // Verificar colisión simple basada en posición
+		        // Verifica la colision simple basada en posicion
 		        double distancia = Math.sqrt(
 		            Math.pow(hechizo1.getX() - enemigoFinal.getX(), 2) + 
 		            Math.pow(hechizo1.getY() - enemigoFinal.getY(), 2)
@@ -284,7 +275,7 @@ public void generarEnemigos() {
 	        enemigoFinal.recibirDaño();
 	    }
 	    
-	    // Verificar si el enemigo final está eliminado después de todos los daños
+	    // Verifica si el enemigo final esta eliminado despues de todos los daños
 	    if (enemigoFinal.getVidas() == 0) {
 	        enemigosFinales[0] = null;
 	        menu.sumarPuntos();
@@ -349,7 +340,7 @@ public void generarEnemigos() {
 		}
 		// Si hay poción y el personaje la toca
        if (pocion != null && personaje.colisionConPocion(pocion)) {
-        personaje.sumarVida(); // o cualquier lógica de mejora
+        personaje.sumarVida();
         pocion = null; // para que desaparezca
        }
 
@@ -422,8 +413,8 @@ public void generarEnemigos() {
 
 		// Dibujar pocion//
 		personaje.dibujar(entorno);
-		if (pocion != null && menu.getPuntos()>20 && personaje.getVida()<=75) { // la pocion aparece si los puntos es mayor a 20 y la vida 
-			                                                                    // es igual o menor a 75
+		if (pocion != null && menu.getPuntos()>20 && personaje.getVida()<=70) { // la pocion aparece si los puntos es mayor a 20 y la vida 
+			                                                                    // es igual o menor a 70
 			pocion.dibujarse(entorno);
 		}
 		

@@ -8,7 +8,6 @@ public class Menu {
     private Boton1 botonOnda;
     private boolean hechizoSeleccionado;
     private int puntos;
-    //private Personaje personaje;
 
     public Menu() {
         this.botonFuego = new Boton(720, 150, 100, 50);
@@ -23,12 +22,10 @@ public class Menu {
             if (botonFuego.mouseEstaSobreElBoton(mouseX, mouseY)) {
                 botonFuego.presionar();
                 botonOnda.soltar();
-                //hechizoSeleccionado = true;
             } 
             else if (botonOnda.mouseEstaSobreElBoton(mouseX, mouseY)) {
                 botonOnda.presionar();
                 botonFuego.soltar();
-                //hechizoSeleccionado = true;
             }
         }
     }
@@ -66,17 +63,6 @@ public class Menu {
 
     }
     
-
-    //public void actualizar(Entorno entorno) {
-        // Detectar si se hace clic con ENTER o alguna tecla
-        //if (entorno.sePresiono(entorno.TECLA_DERECHA)) {
-        //    botonFuego.presionar();
-      //  } //else {
-            //botonHechizo.soltar();
-        //}
-   // }
-
-  
 	public Boolean getBotonFuego() {
 		return botonFuego.estaPresionado();
 	}

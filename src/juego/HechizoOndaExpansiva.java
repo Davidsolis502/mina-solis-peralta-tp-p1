@@ -27,7 +27,8 @@ public class HechizoOndaExpansiva {
         }
     }
     
-    public void aplicarEfecto(Enemigo[] enemigos, Menu menu) {
+    public void aplicarEfecto(Enemigo[] enemigos, Menu menu) { /* recorre la cantidad de enemigos que hay en pantalla
+                                                               los elimina y suma los puntos */
         if (activo) {
             for (int i = 0; i < enemigos.length; i++) {
                 if (enemigos[i] != null) {

@@ -103,15 +103,16 @@ public class Personaje {
 			return false;
 		}
 		
-
+ //detecta el lado del personaje
 		int ladoIzquierdo = this.x - (this.ancho / 2);
 		int ladoDerecho = this.x + (this.ancho / 2);
 		int ladoSuperior = this.y - (this.alto / 2);
 		int ladoInferior = this.y + (this.alto / 2);
-
+//detecta la posicion del enemigo mas cercano
 		int xCercano = Math.max(ladoIzquierdo, Math.min(p.getX(), ladoDerecho));
 		int yCercano = Math.max(ladoSuperior, Math.min(p.getY(), ladoInferior));
 
+// detecta la distancia del alto y de ancho entre personaje y enemigo
 		int alto = yCercano - p.getY();
 		int ancho = xCercano - p.getX();
 		int distancia = (int) Math.sqrt(Math.pow(alto, 2) + Math.pow(ancho, 2));
@@ -187,7 +188,7 @@ public class Personaje {
 	public void restarPoder(){
 		this.poder-=25;
 	}
-
+// suma vida cuando colisiona con la pocion
     public void sumarVida() {
         this.vida+=25;
     }

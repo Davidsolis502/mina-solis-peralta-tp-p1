@@ -13,15 +13,11 @@ public class HechizoFuego {
     private int alto;
     private int fotogramas;
     private boolean efectoAplicado;
-    private final int DURACION_TOTAL = 30; // 0.5 segundos a 60 FPS
+    private int DURACION_TOTAL = 30; 
 
     public HechizoFuego(int x, int y) {
-        try {
-            this.hechizoFuego = Herramientas.cargarImagen("explosion.gif");
-            System.out.println("Imagen de hechizo de fuego cargada correctamente");
-        } catch (Exception e) {
-            System.out.println("Error al cargar imagen de hechizo: " + e.getMessage());
-        }
+        
+        this.hechizoFuego = Herramientas.cargarImagen("explosion.gif");
         this.escala = 0.5;
         this.ancho = 160;
         this.alto = 160;
