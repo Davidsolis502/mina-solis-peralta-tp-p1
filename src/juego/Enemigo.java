@@ -50,10 +50,6 @@ public class Enemigo{
 		this.x += dx;
 		this.y += dy;
 	}
-	
-	public void moverAbajo() {
-		// this.y+=2;
-	}
 
 	public int getX() {
 		return x;
