@@ -7,7 +7,6 @@ import entorno.Herramientas;
 public class EnemigoFinal {
     private int x;
     private int y;
-    private int indice;
     private Image imagenEnemigo;
     private double escala;
     private int vidas;
@@ -18,7 +17,6 @@ public class EnemigoFinal {
         this.imagenEnemigo = Herramientas.cargarImagen("gif-murcielago.gif");
         this.escala = 0.80;
         this.vidas = 60; // Requiere 3 golpes de hechizo
-        this.indice = 0;
     }
     
     public void dibujarse(Entorno entorno) {
@@ -62,14 +60,6 @@ public class EnemigoFinal {
 
     public void setY(int y) {
         this.y = y;
-    }
-    
-    public int getIndice() {
-        return indice;
-    }
-
-    public void setIndice(int i) {
-        this.indice = i;
     }
     
     public int getDiametro() {

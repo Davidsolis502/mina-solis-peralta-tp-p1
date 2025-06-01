@@ -123,7 +123,6 @@ public class Juego extends InterfaceJuego {
 						for (int i = 0; i < enemigosActivos.length; i++) {
 							if (enemigosActivos[i] == null) {
 								enemigosActivos[i] = enemigo;
-								// enemigo.setIndice(i);
 								enemigosGenerados++;
 								totalEnemigosGenerados++; // Incrementamos el contador total
 								System.out.println("Enemigos totales generados: " + totalEnemigosGenerados);
