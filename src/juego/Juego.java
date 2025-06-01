@@ -1,6 +1,5 @@
 package juego;
 
-//import java.awt.Color;
 import java.awt.Image;
 
 import entorno.Entorno;
@@ -21,7 +20,7 @@ public class Juego extends InterfaceJuego {
 	private Enemigo[] enemigosActivos = new Enemigo[10];
 	private EnemigoFinal[] enemigosFinales = new EnemigoFinal[1];
 	private int enemigosGenerados = 0; // Contador de enemigos en la oleada actual
-	private int totalEnemigosGenerados = 0; // Contador total de enemigos generados
+	private int totalEnemigosGenerados = 0; 
 	private final int MAX_ENEMIGOS = 50;
 	private final int MAX_ENEMIGOS_EN_PANTALLA = 10;
 	private int oleadaActual = 1;
@@ -37,9 +36,6 @@ public class Juego extends InterfaceJuego {
 	private Pocion pocion;
 
 	public void generarEnemigos() {
-		// int x = entorno.ancho() / 2;
-		// int y = 50;
-		// enemigosFinales[0] = new EnemigoFinal(x, y);
 		timer.scheduleAtFixedRate(new TimerTask() {
 			@Override
 			public void run() {
@@ -62,8 +58,7 @@ public class Juego extends InterfaceJuego {
 					}
 
 					// Verifica si termino la oleada actual
-					if (enemigosGenerados == enemigosEnOleada && activos == 0 && !entreOleadas
-							&& totalEnemigosGenerados < MAX_ENEMIGOS - 3) {
+					if (enemigosGenerados == enemigosEnOleada && activos == 0 && !entreOleadas) {
 						System.out.println("Enemigos generados en oleada: " + enemigosGenerados);
 						entreOleadas = true;
 						timerEntreOleadas.schedule(new TimerTask() {
@@ -72,21 +67,21 @@ public class Juego extends InterfaceJuego {
 								// Inicia nueva oleada despué del tiempo de espera
 								entreOleadas = false;
 								oleadaActual++;
-								enemigosGenerados = 0; // Reinicia solo el contador de la oleada
+								enemigosGenerados = 0; // Reinicia el contador de la oleada
 								enemigosEnOleada += 3; // Aumentar enemigos para la próxima oleada
 								if (enemigosEnOleada > 15)
 									enemigosEnOleada = 15; // Límite de enemigos por oleada
 							}
-						}, 3000); // 3 segundos de espera
+						}, 3000); 
 						return;
 					}
 
-					// Verificar si ya alcanzamos el máximo de enemigos
+					// Verifica si ya alcanzamos el máximo de enemigos
 					if (totalEnemigosGenerados >= MAX_ENEMIGOS) {
 						return;
 					}
 
-					// Generar nuevos enemigos si no estamos entre oleadas
+					// Genera nuevos enemigos si no estamos entre oleadas
 					if (!entreOleadas && activos < MAX_ENEMIGOS_EN_PANTALLA && enemigosGenerados < enemigosEnOleada) {
 						int borde = random.nextInt(4);
 						int x = 0, y = 0;
