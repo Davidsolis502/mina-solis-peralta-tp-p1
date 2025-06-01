@@ -16,7 +16,7 @@ public class EnemigoFinal {
         this.x = x;
         this.y = y;
         this.imagenEnemigo = Herramientas.cargarImagen("gif-murcielago.gif");
-        this.escala = 0.80; // Tamaño más grande que el enemigo normal
+        this.escala = 0.80;
         this.vidas = 60; // Requiere 3 golpes de hechizo
         this.indice = 0;
     }

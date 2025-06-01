@@ -238,8 +238,20 @@ public void generarEnemigos() {
 		                personaje.restarVida();
 		            }
 		            menu.sumarPuntos();
-		        }
+		        } 
+				// else if (this.personaje.colisionConEnemigoFinal(enemigosFinales[0])) {
+		        //     if (personaje.getVida() > 0) {
+		        //         personaje.restarVida();
+		        //     }
+		        // }
 		    }
+		}
+		if (enemigosFinales[0] != null && enemigosFinales[0].getVidas() > 0) {
+			if (this.personaje.colisionConEnemigoFinal(enemigosFinales[0])) {
+				if (personaje.getVida() > 0) {
+					personaje.restarVida();
+				}
+			}
 		}
 		
 		// Actualizar y dibujar hechizo de onda expansiva

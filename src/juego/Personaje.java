@@ -102,6 +102,7 @@ public class Personaje {
 		if (p == null) {
 			return false;
 		}
+		
 
 		int ladoIzquierdo = this.x - (this.ancho / 2);
 		int ladoDerecho = this.x + (this.ancho / 2);
@@ -117,6 +118,28 @@ public class Personaje {
 
 		return distancia <= (p.getDiametro() / 2);
 	}
+	
+
+	public boolean colisionConEnemigoFinal(EnemigoFinal p) {
+		if (p == null) {
+			return false;
+		}
+
+		int ladoIzquierdo = this.x - (this.ancho / 2);
+		int ladoDerecho = this.x + (this.ancho / 2);
+		int ladoSuperior = this.y - (this.alto / 2);
+		int ladoInferior = this.y + (this.alto / 2);
+
+		int xCercano = Math.max(ladoIzquierdo, Math.min(p.getX(), ladoDerecho));
+		int yCercano = Math.max(ladoSuperior, Math.min(p.getY(), ladoInferior));
+
+		int alto = yCercano - p.getY();
+		int ancho = xCercano - p.getX();
+		int distancia = (int) Math.sqrt(Math.pow(alto, 2) + Math.pow(ancho, 2));
+
+		return distancia <= (p.getDiametro() / 2);
+	}
+	
 	public boolean colisionConRoca(Roca r) {
 		if (r == null) {
 			return false;
