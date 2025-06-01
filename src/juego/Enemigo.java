@@ -23,15 +23,6 @@ public class Enemigo{
 		entorno.dibujarImagen(imagenenemigo, x, y,0,escala);
 	}
 	
-	public boolean fueraDeLimite(Entorno e) {
-		if(this.y-(this.diametro/2) >= e.alto()) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-	
 	public void seguirPersonaje(Personaje personaje) {
 		double velocidad = 1.5;
 		

@@ -223,11 +223,7 @@ public class Juego extends InterfaceJuego {
 		for (int i = 0; i < enemigosActivos.length; i++) {
 			if (enemigosActivos[i] != null) {
 				enemigosActivos[i].seguirPersonaje(this.personaje);
-
-				if (enemigosActivos[i].fueraDeLimite(entorno)) {
-					enemigosActivos[i] = null;
-					menu.sumarPuntos();
-				} else if (this.personaje.colisionConEnemigo(enemigosActivos[i])) {
+					if (this.personaje.colisionConEnemigo(enemigosActivos[i])) {
 					enemigosActivos[i] = null;
 					if (personaje.getVida() > 0) {
 						personaje.restarVida();
