@@ -199,6 +199,12 @@ public void generarEnemigos() {
         	
         	return; // detiene el tick
         }
+		//texto ganaste//
+			if(menu.getPuntos()>=51){
+				entorno.cambiarFont("Arial", 100, java.awt.Color.green, entorno.NEGRITA);
+	            entorno.escribirTexto("GANASTE",90,300);
+				return; // detiene el tick
+			}
 		
 		// Dibujar objetos en pantalla
 		this.dibujarObjetos();
@@ -217,12 +223,7 @@ public void generarEnemigos() {
 		if (entorno.estaPresionada(entorno.TECLA_ARRIBA)) {
 			personaje.moverArriba();
 		}
-		//texto ganaste//
-		if(menu.getPuntos()>=51){
-			entorno.cambiarFont("Arial", 100, java.awt.Color.green, entorno.NEGRITA);
-            entorno.escribirTexto("GANASTE",90,300);
-			return; // detiene el tick
-		}
+		
 
 		// Movimiento y actualización de enemigos normales
 		for (int i = 0; i < enemigosActivos.length; i++) {
@@ -315,15 +316,25 @@ public void generarEnemigos() {
         // Uso de hechizos
 		if (entorno.sePresionoBoton(entorno.BOTON_IZQUIERDO)) {
     
-			// Hechizo Fuego
-			if (menu.getBotonFuego()) {
-				if (entorno.mouseX() < 550) {
-					hechizo1.setX(entorno.mouseX());
-					hechizo1.setY(entorno.mouseY());
-					hechizo1.reiniciar();
-					menu.liberarSeleccion();
-				} 
+			// Al lanzar el hechizo
+			if (menu.getBotonFuego() && entorno.sePresionoBoton(entorno.BOTON_IZQUIERDO)) {
+			    if (entorno.mouseX() < 550) {
+			        hechizo1.setPosicion(entorno.mouseX(), entorno.mouseY());
+			        hechizo1.reiniciar();
+			        menu.liberarSeleccion();
+			    }
 			}
+
+			// actualiza el esta de hechizo 1, si esta activo de dibuja
+			hechizo1.actualizar();
+			if (hechizo1.estaActivo()) {
+			    hechizo1.dibujarse(entorno);
+			    
+			  
+			}
+				
+				
+			
 			// Hechizo Onda
 			if (menu.getBotonOnda() && personaje.getPoder()>0){
 				if (entorno.mouseX() < 550) {

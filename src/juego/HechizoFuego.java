@@ -5,52 +5,64 @@ import entorno.Entorno;
 import entorno.Herramientas;
 
 public class HechizoFuego {
-
     private int x;
     private int y;
     private Image hechizoFuego;
     private double escala;
     private int ancho;
     private int alto;
-    private int fotogramas; // duración en frames
+    private int fotogramas;
+    private boolean efectoAplicado;
+    private final int DURACION_TOTAL = 30; // 0.5 segundos a 60 FPS
 
     public HechizoFuego(int x, int y) {
-        this.x = x;
-        this.y = y;
-        this.hechizoFuego = Herramientas.cargarImagen("explosion.gif");
+        try {
+            this.hechizoFuego = Herramientas.cargarImagen("explosion.gif");
+            System.out.println("Imagen de hechizo de fuego cargada correctamente");
+        } catch (Exception e) {
+            System.out.println("Error al cargar imagen de hechizo: " + e.getMessage());
+        }
         this.escala = 0.5;
         this.ancho = 160;
         this.alto = 160;
-        this.fotogramas = 0; // dura 30 frames ( medio segundo a 60 FPS)
+        this.fotogramas = 0;
+        this.efectoAplicado = false;
+        // la pocicion fuera de la pantalla
+        this.x = -100;
+        this.y = -100;
     }
 
     public void actualizar() {
-        this.fotogramas--;
+        if (estaActivo()) {
+            fotogramas--;
+            // se resetea cuando termina la animacion
+            if (fotogramas <= 0) {
+                resetear();
+            }
+        }
     }
 
     public boolean estaActivo() {
-        return this.fotogramas > 0;
+        return fotogramas > 0;
     }
 
-    public void setX(int x) {
+    public void setPosicion(int x, int y) {
         this.x = x;
-    }
-
-    public void setY(int y) {
         this.y = y;
     }
 
     public void dibujarse(Entorno entorno) {
         if (estaActivo()) {
-            entorno.dibujarImagen(hechizoFuego, x, y, escala);
+            entorno.dibujarImagen(hechizoFuego, x, y, 0, escala);
         }
     }
 
     public boolean EnemigoEnRango(Enemigo p) {
-        if (p == null) {
+        if (p == null || !estaActivo() || efectoAplicado) {
             return false;
         }
 
+        // calcula la colision
         int ladoIzquierdo = this.x - (this.ancho / 2);
         int ladoDerecho = this.x + (this.ancho / 2);
         int ladoSuperior = this.y - (this.alto / 2);
@@ -61,9 +73,23 @@ public class HechizoFuego {
 
         int deltaX = xCercano - p.getX();
         int deltaY = yCercano - p.getY();
-        int distancia = (int) Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
+        double distancia = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
-        return distancia <= (p.getDiametro() / 2);
+        efectoAplicado = distancia <= (p.getDiametro() / 2);
+        return efectoAplicado;
+    }
+
+    public void reiniciar() {
+        this.fotogramas = DURACION_TOTAL;
+        this.efectoAplicado = false;
+    }
+
+    public void resetear() {
+        this.fotogramas = 0;
+        this.efectoAplicado = true;
+        // Mover fuera de pantalla
+        this.x = -100;
+        this.y = -100;
     }
 
     public int getX() {
@@ -73,9 +99,4 @@ public class HechizoFuego {
     public int getY() {
         return y;
     }
-
-    public void reiniciar() {
-		this.fotogramas = 30;
-	}
-	
 }
