@@ -25,13 +25,12 @@ public class EnemigoFinal {
     
     public void seguirPersonaje(Personaje personaje) {
         
-        // Seguir al personaje
         int dx = personaje.getX() - this.x;
         int dy = personaje.getY() - this.y;
         double distancia = Math.sqrt(dx * dx + dy * dy);
         
         if (distancia > 0) {
-            dx = (int) (dx / distancia * 2); // Velocidad reducida
+            dx = (int) (dx / distancia * 2); 
             dy = (int) (dy / distancia * 2);
         }
         
@@ -41,9 +40,6 @@ public class EnemigoFinal {
     
     public void recibirDaño() {
             vidas--;
-            // if (vidas <= 0) {
-            //     eliminado = true;
-            // }
         }
     
     public int getX() {

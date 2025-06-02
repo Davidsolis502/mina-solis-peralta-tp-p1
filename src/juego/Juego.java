@@ -39,7 +39,6 @@ public class Juego extends InterfaceJuego {
 		timer.scheduleAtFixedRate(new TimerTask() {
 			@Override
 			public void run() {
-				synchronized (this) {
 					if (menu.getPuntos() == MAX_ENEMIGOS) {
 						// Generar enemigo final cuando se acaban los enemigos normales
 						if (enemigosFinales[0] == null) {
@@ -124,7 +123,6 @@ public class Juego extends InterfaceJuego {
 								break;
 							}
 						}
-					}
 				}
 			}
 		}, 0, 100);
