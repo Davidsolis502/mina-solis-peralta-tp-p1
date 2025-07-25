@@ -1,7 +1,7 @@
 package juego;
 //import java.awt.Image;
 import entorno.Entorno;
-//import java.awt.Color;
+import java.awt.Color;
 
 public class Menu {
     private Boton botonFuego;
